@@ -36,12 +36,19 @@ st.markdown(
     .stApp {
         background-color: #e8f5e9;
     }
-    /* Sidebar (left navigation) slightly darker green */
-    div[data-testid="stSidebar"] {
-        background-color: #c8e6c9;
+    /* Sidebar with dark green background and white text */
+    [data-testid="stSidebar"] {
+        background-color: #0f3d2e;
+        color: white;
     }
-    div[data-testid="stSidebar"] .stSidebar {
-        background-color: transparent;
+    [data-testid="stSidebar"] * {
+        color: white;
+    }
+    .sidebar-title {
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        color: white;
     }
     </style>
     """,
@@ -97,7 +104,7 @@ page_names = {
     "SQ3: Future Projections": "sq3",
 }
 
-st.sidebar.title("USA Data Center Explorer")
+st.sidebar.markdown('<div class="sidebar-title">USA Data Center Explorer</div>', unsafe_allow_html=True)
 st.sidebar.markdown("---")
 selected_page = st.sidebar.selectbox(
     "Navigate to:", list(page_names.keys())
