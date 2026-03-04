@@ -765,5 +765,7 @@ st.sidebar.markdown(
     - [WRI Aqueduct 4.0](https://www.wri.org/applications/aqueduct/water-risk-atlas/)
 
     *30538 Final Project — UChicago Harris*
+    
+    © 2026 Ankit Manav
     """
 )
