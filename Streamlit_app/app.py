@@ -50,6 +50,15 @@ st.markdown(
         margin-bottom: 20px;
         color: white;
     }
+    /* Fix selected dropdown text color */
+    div[data-baseweb="select"] div {
+        color: black !important;
+    }
+
+    /* Fix dropdown menu option text */
+    div[data-baseweb="select"] span {
+        color: black !important;
+    }
     </style>
     """,
     unsafe_allow_html=True,
