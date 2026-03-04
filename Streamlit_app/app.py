@@ -36,6 +36,13 @@ st.markdown(
     .stApp {
         background-color: #e8f5e9;
     }
+    /* Sidebar (left navigation) slightly darker green */
+    div[data-testid="stSidebar"] {
+        background-color: #c8e6c9;
+    }
+    div[data-testid="stSidebar"] .stSidebar {
+        background-color: transparent;
+    }
     </style>
     """,
     unsafe_allow_html=True,
