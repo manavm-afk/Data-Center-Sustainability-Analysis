@@ -766,6 +766,6 @@ st.sidebar.markdown(
 
     *30538 Final Project — UChicago Harris*
     
-    © 2026 Ankit Manav
+    © 2026 Ankit Dixit and Manav Mutneja
     """
 )
