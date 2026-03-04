@@ -128,7 +128,7 @@ def page_overview():
 
     color_field = "co2_rate" if "Carbon" in color_by else "water_stress_score"
     color_title = "CO₂ (lb/MWh)" if "Carbon" in color_by else "Water Stress Score"
-    color_scheme = "greens"
+    color_scheme = "reds" if "Carbon" in color_by else "blues"
 
     # US states background
     states_url = "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/us-10m.json"
@@ -181,7 +181,7 @@ def page_overview():
             y=alt.Y("state_abb:N", sort="-x", title="State"),
             color=alt.Color(
                 "mean_co2_rate:Q",
-                scale=alt.Scale(scheme="greens"),
+                scale=alt.Scale(scheme="reds"),
                 title="Avg CO₂ Rate",
             ),
             tooltip=[
@@ -264,7 +264,7 @@ def page_sq1():
             size=alt.value(40),
             color=alt.Color(
                 "co2_rate:Q",
-                scale=alt.Scale(scheme="greens"),
+                scale=alt.Scale(scheme="redyellowgreen", reverse=True),
                 title="CO₂ (lb/MWh)",
             ),
             tooltip=[
@@ -304,7 +304,7 @@ def page_sq1():
             y=alt.Y("egrid_subregion:N", sort="-x", title="eGRID Subregion"),
             color=alt.Color(
                 "mean_co2:Q",
-                scale=alt.Scale(scheme="greens"),
+                scale=alt.Scale(scheme="redyellowgreen", reverse=True),
                 legend=None,
             ),
             tooltip=[
@@ -431,7 +431,7 @@ def page_sq2():
                 "water_stress_label:N",
                 scale=alt.Scale(
                     domain=stress_categories,
-                    range=["#edf8e9", "#bae4b3", "#74c476", "#31a354", "#006d2c"],
+                    range=["#1a9641", "#a6d96a", "#ffffbf", "#fdae61", "#d7191c"],
                 ),
                 title="Water Stress Level",
             ),
@@ -475,7 +475,7 @@ def page_sq2():
                 "water_stress_label:N",
                 scale=alt.Scale(
                     domain=stress_categories,
-                    range=["#edf8e9", "#bae4b3", "#74c476", "#31a354", "#006d2c"],
+                    range=["#1a9641", "#a6d96a", "#ffffbf", "#fdae61", "#d7191c"],
                 ),
                 legend=None,
             ),
@@ -612,7 +612,7 @@ def page_sq3():
 
     stress_color_scale = alt.Scale(
         domain=stress_categories,
-        range=["#edf8e9", "#bae4b3", "#74c476", "#31a354", "#006d2c"],
+        range=["#1a9641", "#a6d96a", "#ffffbf", "#fdae61", "#d7191c"],
     )
 
     stacked = (
