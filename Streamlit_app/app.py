@@ -713,10 +713,10 @@ def page_sq3():
 # ══════════════════════════════════════════════════════════════════════════
 
 page_fn = {
-    "🏠 Overview": page_overview,
-    "⚡ SQ1: Carbon Intensity": page_sq1,
-    "💧 SQ2: Water Stress": page_sq2,
-    "🔮 SQ3: Future Projections": page_sq3,
+    "Overview": page_overview,
+    "SQ1: Carbon Intensity": page_sq1,
+    "SQ2: Water Stress": page_sq2,
+    "SQ3: Future Projections": page_sq3,
 }
 
 page_fn[selected_page]()
