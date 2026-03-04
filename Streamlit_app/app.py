@@ -24,8 +24,8 @@ from pathlib import Path
 
 # ── Config ─────────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="AI Data Center Sustainability Explorer",
-    page_icon="🌍",
+    page_title="Data Center Sustainability Explorer",
+    page_icon="Ankit_Manav",
     layout="wide",
 )
 
@@ -78,7 +78,7 @@ page_names = {
     "SQ3: Future Projections": "sq3",
 }
 
-st.sidebar.title("🌍 Data Center Explorer")
+st.sidebar.title("USA Data Center Explorer")
 st.sidebar.markdown("---")
 selected_page = st.sidebar.selectbox(
     "Navigate to:", list(page_names.keys())
@@ -89,13 +89,16 @@ selected_page = st.sidebar.selectbox(
 # ══════════════════════════════════════════════════════════════════════════
 
 def page_overview():
-    st.title("The Environmental Footprint of AI Infrastructure")
+    st.title("The Environmental Footprint of US Data Center Infrastructure")
     st.markdown(
         """
-        **How do U.S. data center locations relate to grid carbon intensity
-        and regional water stress — and what are the policy implications
-        for sustainable siting?**
-        """
+        <div style="font-size: 20px; font-weight: bold; line-height: 1.6;">
+        How do U.S. data center locations relate to grid carbon intensity
+        and regional water stress, and what are the policy implications
+        for sustainable siting?
+        </div>
+        """,
+        unsafe_allow_html=True
     )
 
     master = load_master()
@@ -201,7 +204,7 @@ def page_overview():
 # ══════════════════════════════════════════════════════════════════════════
 
 def page_sq1():
-    st.title("⚡ SQ1: Data Center Concentration & Grid Carbon Intensity")
+    st.title("SQ1: Data Center Concentration & Grid Carbon Intensity")
     st.markdown(
         """
         *Which U.S. counties have the highest concentration of data centers,
