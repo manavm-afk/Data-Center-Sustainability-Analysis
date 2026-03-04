@@ -1,2 +1,2 @@
 # AI-datacenter-sustainability-analysis
-Spatial analysis of U.S. AI data center locations, grid carbon intensity, and regional water stress to evaluate sustainable siting policy.
+This project analyzes how AI and cloud data center locations in the United States intersect with local electricity grid carbon intensity and regional water stress. Using spatial joins across the IM3 Data Center Atlas, EPA eGRID emissions data, and WRI Aqueduct water risk data, the analysis identifies environmental risk hotspots and evaluates policy implications for sustainable AI infrastructure siting. The project includes reproducible data processing, static visualizations, and an interactive Streamlit dashboard.
