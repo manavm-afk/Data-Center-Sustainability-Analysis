@@ -29,6 +29,18 @@ st.set_page_config(
     layout="wide",
 )
 
+# Light green background for the dashboard
+st.markdown(
+    """
+    <style>
+    .stApp {
+        background-color: #e8f5e9;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 DATA_DIR = Path(__file__).parent
 
 
