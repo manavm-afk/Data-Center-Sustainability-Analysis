@@ -72,10 +72,10 @@ def load_future_water():
 # ══════════════════════════════════════════════════════════════════════════
 
 page_names = {
-    "🏠 Overview": "overview",
-    "⚡ SQ1: Carbon Intensity": "sq1",
-    "💧 SQ2: Water Stress": "sq2",
-    "🔮 SQ3: Future Projections": "sq3",
+    "Overview": "overview",
+    "SQ1: Carbon Intensity": "sq1",
+    "SQ2: Water Stress": "sq2",
+    "SQ3: Future Projections": "sq3",
 }
 
 st.sidebar.title("🌍 Data Center Explorer")
