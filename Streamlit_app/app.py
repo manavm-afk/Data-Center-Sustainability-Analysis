@@ -92,13 +92,10 @@ def page_overview():
     st.title("The Environmental Footprint of US Data Center Infrastructure")
     st.markdown(
         """
-        <div style="font-size: 20px; font-weight: bold; line-height: 1.6;">
-        How do U.S. data center locations relate to grid carbon intensity
+        **How do U.S. data center locations relate to grid carbon intensity
         and regional water stress, and what are the policy implications
-        for sustainable siting?
-        </div>
-        """,
-        unsafe_allow_html=True
+        for sustainable siting?**
+        """
     )
 
     master = load_master()
@@ -174,7 +171,7 @@ def page_overview():
     st.altair_chart(background + points, use_container_width=True)
 
     # ── Top-10 states bar chart ──────────────────────────────────────────
-    st.subheader("Top 10 States by Data Center Count")
+    st.subheader("Top 10 US States by Data Center Count")
     top10 = state_df.nlargest(10, "dc_count")
     bar = (
         alt.Chart(top10)
@@ -207,7 +204,7 @@ def page_sq1():
     st.title("SQ1: Data Center Concentration & Grid Carbon Intensity")
     st.markdown(
         """
-        *Which U.S. counties have the highest concentration of data centers,
+        *Which U.S. counties/states have the highest concentration of data centers,
         and how carbon-intensive is their local electricity grid?*
         """
     )
@@ -322,7 +319,7 @@ def page_sq1():
     st.altair_chart(bar, use_container_width=True)
 
     # ── Scatter: CO₂ vs renewable ────────────────────────────────────────
-    st.subheader("Carbon Intensity vs. Renewable Share by County")
+    st.subheader("Carbon Intensity vs. Renewable Share by County/State")
 
     county_filtered = county_df.copy()
     if selected_states:
@@ -354,7 +351,7 @@ def page_sq1():
 # ══════════════════════════════════════════════════════════════════════════
 
 def page_sq2():
-    st.title("💧 SQ2: Data Centers in Water-Stressed Regions")
+    st.title("SQ2: Data Centers in Water-Stressed Regions")
     st.markdown(
         """
         *Are data centers disproportionately located in water-stressed regions?*
@@ -525,7 +522,7 @@ def page_sq2():
 # ══════════════════════════════════════════════════════════════════════════
 
 def page_sq3():
-    st.title("🔮 SQ3: Future Water Stress Projections")
+    st.title("SQ3: Future Water Stress Projections")
     st.markdown(
         """
         *Under projected growth scenarios, how might future data center siting
