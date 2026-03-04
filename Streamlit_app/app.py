@@ -128,7 +128,7 @@ def page_overview():
 
     color_field = "co2_rate" if "Carbon" in color_by else "water_stress_score"
     color_title = "CO₂ (lb/MWh)" if "Carbon" in color_by else "Water Stress Score"
-    color_scheme = "reds" if "Carbon" in color_by else "blues"
+    color_scheme = "greens"
 
     # US states background
     states_url = "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/us-10m.json"
@@ -181,7 +181,7 @@ def page_overview():
             y=alt.Y("state_abb:N", sort="-x", title="State"),
             color=alt.Color(
                 "mean_co2_rate:Q",
-                scale=alt.Scale(scheme="reds"),
+                scale=alt.Scale(scheme="greens"),
                 title="Avg CO₂ Rate",
             ),
             tooltip=[
@@ -264,7 +264,7 @@ def page_sq1():
             size=alt.value(40),
             color=alt.Color(
                 "co2_rate:Q",
-                scale=alt.Scale(scheme="redyellowgreen", reverse=True),
+                scale=alt.Scale(scheme="greens"),
                 title="CO₂ (lb/MWh)",
             ),
             tooltip=[
@@ -304,7 +304,7 @@ def page_sq1():
             y=alt.Y("egrid_subregion:N", sort="-x", title="eGRID Subregion"),
             color=alt.Color(
                 "mean_co2:Q",
-                scale=alt.Scale(scheme="redyellowgreen", reverse=True),
+                scale=alt.Scale(scheme="greens"),
                 legend=None,
             ),
             tooltip=[
@@ -344,7 +344,6 @@ def page_sq1():
         .properties(width=800, height=450)
     )
     st.altair_chart(scatter, use_container_width=True)
-
 
 # ══════════════════════════════════════════════════════════════════════════
 # PAGE: SQ2 — WATER STRESS
@@ -432,7 +431,7 @@ def page_sq2():
                 "water_stress_label:N",
                 scale=alt.Scale(
                     domain=stress_categories,
-                    range=["#1a9641", "#a6d96a", "#ffffbf", "#fdae61", "#d7191c"],
+                    range=["#edf8e9", "#bae4b3", "#74c476", "#31a354", "#006d2c"],
                 ),
                 title="Water Stress Level",
             ),
@@ -476,7 +475,7 @@ def page_sq2():
                 "water_stress_label:N",
                 scale=alt.Scale(
                     domain=stress_categories,
-                    range=["#1a9641", "#a6d96a", "#ffffbf", "#fdae61", "#d7191c"],
+                    range=["#edf8e9", "#bae4b3", "#74c476", "#31a354", "#006d2c"],
                 ),
                 legend=None,
             ),
@@ -613,7 +612,7 @@ def page_sq3():
 
     stress_color_scale = alt.Scale(
         domain=stress_categories,
-        range=["#1a9641", "#a6d96a", "#ffffbf", "#fdae61", "#d7191c"],
+        range=["#edf8e9", "#bae4b3", "#74c476", "#31a354", "#006d2c"],
     )
 
     stacked = (
