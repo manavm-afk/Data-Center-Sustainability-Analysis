@@ -47,7 +47,7 @@ conda env create -f environment.yml
 conda activate dc_sustainability
 
 # Option B: pip (use a venv OUTSIDE iCloud-synced folders)
-pip install -r requirements.txt
+pip install -r code/requirements.txt
 ```
 
 ## Project Structure
@@ -56,7 +56,7 @@ pip install -r requirements.txt
 ├── README.md
 ├── METHODS.md                     # data sources, joins, masking rules, limitations
 ├── Final_Project_Summary.qmd      # analysis writeup (Quarto)
-├── requirements.txt / environment.yml
+├── environment.yml                # conda env (pip spec: code/requirements.txt)
 ├── code/
 │   ├── download_data.py           # downloads raw data; --check-updates / --update
 │   ├── preprocessing.py           # pipeline: spatial joins, QA report
