@@ -26,9 +26,16 @@ execute:
   warning: false
 ---
 
-**Final Project Repo:** [Datacenter Sustainability Analysis](https://github.com/ankitdixit23/AI-datacenter-sustainability-analysis) 
+**Project Repo:** [Datacenter Sustainability Analysis](https://github.com/manavm-afk/AI-datacenter-sustainability-analysis)
 
- **Final Dashboard:** [Datacenter Sustainability Streamlit.app](https://dc-sustainability.streamlit.app/)
+::: {.callout-note}
+**Revision (July 2026).** This summary reflects the Phase-0 integrity revision of the original
+Winter 2026 group analysis: water stress is now assigned by a true point-in-polygon join into
+HydroBASINS level-6 basins (replacing a state-level approximation), grid subregions by
+point-in-polygon against EPA's official eGRID boundaries (replacing a nearest-power-plant proxy),
+and summaries report square-footage-weighted rates. All headline numbers changed accordingly;
+the full before/after is in `data/derived-data/qa_report.md`, methods in `METHODS.md`.
+:::
 
 
 ***Introduction and Research Questions:***
@@ -45,39 +52,39 @@ India's 2026 Union Budget introduced a 21-year tax holiday for foreign cloud pro
 
 **Data Collection and Processing Pipeline**
 
-This analysis integrates three publicly available datasets: the IM3 Open Source Data Center Atlas (PNNL/DOE, 1,479 facility-level records with coordinates, operator, and square footage), the EPA's Emissions & Generation Resource Integrated Database (eGRID 2023, plant/subregion/state-level CO₂ rates and fuel mix), and the WRI Aqueduct 4.0 Water Risk Atlas (catchment-level water stress scores and future projections through 2080). A `download_data.py` script automates retrieval into `data/raw-data/`. All wrangling is consolidated in `preprocessing.py`, which deduplicates five cross-county facility IDs to yield 1,474 unique data centers, generates FIPS codes, and outputs seven derived CSVs to `data/derived-data/`.
+This analysis integrates five publicly available datasets: the IM3 Open Source Data Center Atlas (PNNL/DOE, 1,479 facility-level records with coordinates, operator, and square footage), the EPA's Emissions & Generation Resource Integrated Database (eGRID 2023 rev2) with EPA's official subregion boundary shapefiles, the WRI Aqueduct 4.0 Water Risk Atlas (sub-basin water stress scores and future projections through 2080), HydroSHEDS HydroBASINS level-6 basin polygons (the geometry layer behind Aqueduct's `pfaf_id`), and a dated snapshot of the FracTracker US Data Centers Tracker (facility MW capacity). A `download_data.py` script automates retrieval and checks publishers for newer versions against pinned entries in `data/manifest.json`. All wrangling is consolidated in `preprocessing.py`, which deduplicates five cross-county facility IDs to yield 1,474 unique data centers and writes a QA report alongside the derived CSVs.
 
-For carbon intensity (Sub-Question 1), the pipeline assigns each data center the EPA grid subregion of its geographically nearest power plant via a nearest-neighbor spatial index, then merges subregion-level CO₂ rates in lbs/MWh onto facility records. For water stress (Sub-Question 2), a point-in-polygon spatial join against the WRI Aqueduct 4.0 baseline layer assigns each facility its enclosing watershed's stress score (Low through Extremely High); future projections for 2030–2080 are extracted separately. A final master merge combines both layers into a single facility-level record enabling the dual-risk analysis.
+For carbon intensity (Sub-Question 1), each facility is assigned its EPA grid subregion by point-in-polygon against eGRID's official boundaries, with an explicit fallback ladder recorded per facility; the legacy nearest-power-plant proxy would have mis-assigned 16 facilities (1.1%). For water stress (Sub-Question 2), each facility is joined point-in-polygon into its HydroBASINS level-6 basin and matched to Aqueduct 4.0 on `pfaf_id` (100% match), with 9999-sentinel masking and explicit arid-basin handling; future projections for 2030–2080 are extracted separately. MW capacity attaches via a conservative ≤500 m one-to-one match to FracTracker (no imputation). A final master merge combines all layers into a single facility-level record enabling the dual-risk analysis, with square-footage-weighted rates reported alongside unweighted means.
 
 **Visualization Outputs and Key Findings**
 
-The chart generation script (`code/generate_charts.py`) produces six static figures from the derived data; the Streamlit dashboard pages provide interactive equivalents.
+The chart generation script (`code/generate_charts.py`) produces six static figures from the derived data; the forthcoming web dashboard provides interactive equivalents from the same versioned data layer.
 
-Figure 1 ranks the top 10 states by data center count, with bar color encoding mean grid CO₂ rate and dual-unit labels. Virginia leads with 319 facilities at 594 lbs/MWh (270 kg/MWh). Ohio (911), Iowa (920), and Illinois (925 lbs/MWh) are high-carbon hotspots, each roughly 30% above the national average, while California benefits from the cleanest grid at 428 lbs/MWh, roughly 40% below.
+Figure 1 ranks the top 10 states by data center count, with bar color encoding the sqft-weighted grid CO₂ rate and dual-unit labels. Virginia leads with 319 facilities at 593 lbs/MWh (269 kg/MWh). Ohio (911), Iowa (920), and Illinois (912 lbs/MWh sqft-weighted) are high-carbon hotspots, each roughly 30% above the national unweighted mean of 704 lbs/MWh, while California benefits from the cleanest major-market grid at 428 lbs/MWh. Weighting matters: nationally, the sqft-weighted mean (786 lbs/MWh) runs 12% above the unweighted mean because larger facilities disproportionately sit on dirtier grids.
 
 ![Figure 1. Top 10 states by data center count; bar color = mean grid CO₂ rate.](output_charts/fig1_top_states.png){width=55%}
 
-Figures 2a–2b are spatial maps plotting each data center colored by grid subregion CO₂ rate and sized by facility square footage (larger circles = larger buildings). The Northern Virginia mega-cluster (319 DCs), the Pacific Northwest corridor (OR 109, WA 82), and Midwest markers at Columbus, OH (65 DCs) and Chicago, IL (29 DCs) on grids exceeding 900 lbs/MWh are immediately visible.
+Figures 2a–2b are spatial maps plotting each data center colored by grid subregion CO₂ rate and sized by facility square footage (larger circles = larger buildings); county-cluster annotations are now computed from the data rather than hard-coded. The Northern Virginia mega-cluster (Loudoun County 213 DCs, Prince William County 63), the Pacific Northwest corridor (OR 109, WA 82, including Umatilla County 31 and Grant County 39), and Midwest markers in Licking County, OH (32) and Cook County, IL (29) on grids exceeding 900 lbs/MWh are immediately visible.
 
 ![Figure 2a. State-level view.](output_charts/fig2a_us_map_states.png){width=48%} ![Figure 2b. County-level view.](output_charts/fig2b_us_map_counties.png){width=48%}
 
-Figure 3 compares the top 10 EPA grid subregions. The Virginia/Carolina subregion (SRVC) hosts ~347 data centers at ~594 lbs/MWh; the RFC West region covering Ohio and the Midwest (RFCW) hosts ~156 on one of the dirtiest grids at ~911 lbs/MWh. The Rocky Mountain subregion (RMPA) registers the highest rate at over 1,036 lbs/MWh, nearly 50% above average. Figure 4 shows 66.3% of data centers fall in Low-Medium water stress, but 26.7% (393 facilities) are in High or Extremely High zones, led by Texas (127), California (112), and Arizona (65).
+Figure 3 compares the top 10 EPA grid subregions. The Virginia/Carolina subregion (SRVC) hosts 353 data centers at ~593 lbs/MWh; the RFC West region covering Ohio and the Midwest (RFCW) hosts 156 on one of the dirtiest grids at ~911 lbs/MWh. The Rocky Mountain subregion (RMPA) registers the highest rate at 1,036.6 lbs/MWh, nearly 50% above average. Figure 4 shows the corrected catchment-level water-stress distribution: 51.1% of data centers fall in Low or Low-Medium stress basins, but **34.7% (511 facilities) sit in High or Extremely High stress catchments** — led, strikingly, by Virginia (97, concentrated in Prince William and Fairfax counties' Occoquan-basin water supply), Texas (76), and Arizona (65). The original state-level approximation reported 26.7% (393): it both missed genuinely stressed basins inside nominally wet states and overstated stress elsewhere (Santa Clara County's basin scores Low-Medium, 1.29 — not the "Extremely High" the state dictionary assigned all of California).
 
 ![Figure 3. Grid subregions by DC count and CO₂ rate.](output_charts/fig3_egrid_subregions.png){width=48%} ![Figure 4. Water stress distribution.](output_charts/fig4_water_stress.png){width=48%}
 
-Figure 5 is the central output: a dual-axis scatter of every data center by water stress (x) and grid CO₂ rate (y), with bubble size encoding square footage. The shaded red zone identifies 250 dual-risk facilities on grids above 700 lbs/MWh in High or Extremely High water stress catchments, concentrated in TX, AZ, NV, CO, and NM. Colorado's Rocky Mountain grid at 1,036.6 lbs/MWh (470.2 kg/MWh) in severely stressed watersheds represents the most environmentally costly computing corridor in the country.
+Figure 5 is the central output: a dual-axis scatter of every data center by water stress (x) and grid CO₂ rate (y), with bubble size encoding square footage. The shaded red zone identifies **284 dual-risk facilities** on grids above 700 lbs/MWh in High or Extremely High water stress catchments, concentrated in TX (76), AZ (65), IL (48), CO (20), and WY (18) — Illinois enters this list only under the corrected basin-level data. Colorado and Wyoming's Rocky Mountain grid at 1,036.6 lbs/MWh (470.2 kg/MWh) in severely stressed watersheds remains the most environmentally costly computing corridor in the country.
 
-![Figure 5. Dual-risk scatter: 250 facilities face compounded carbon and water challenges.](output_charts/fig5_dual_risk_scatter.png){width=65%}
+![Figure 5. Dual-risk scatter: 284 facilities face compounded carbon and water challenges.](output_charts/fig5_dual_risk_scatter.png){width=65%}
 
-The interactive Streamlit dashboard ([dc-sustainability.streamlit.app](https://dc-sustainability.streamlit.app/)) extends these findings into a four-page explorer with filters for state, operator, carbon intensity, and water stress, plus Aqueduct future projections under BAU, optimistic, and pessimistic scenarios. The 250 dual-risk facilities identified across these outputs motivate the following policy interventions.
+An interactive web dashboard (in development on a modern front-end stack) will extend these findings into an explorer with filters for state, operator, carbon intensity, and water stress, plus Aqueduct future projections under BAU, optimistic, and pessimistic scenarios; it consumes the versioned JSON data layer in `web-data/`. The 284 dual-risk facilities identified across these outputs motivate the following policy interventions.
 
 ***Policy Implications***
 
-**1. Grid-aware siting incentives.** Nearly 30% of U.S. data centers operate on grids above 800 lbs CO₂/MWh, primarily in Ohio and the Midwest. Federal or state tax credits tied to grid carbon intensity could steer new construction toward cleaner regions such as the Pacific Northwest (632 lbs/MWh, 55% renewables) or California (428 lbs/MWh, 47% renewables), cutting per-facility emissions by up to half.
+**1. Grid-aware siting incentives.** 29.3% of U.S. data centers operate on grids above 800 lbs CO₂/MWh, primarily in Ohio and the Midwest — and the sqft-weighted picture is worse than the facility count suggests (786 vs 704 lbs/MWh). Federal or state tax credits tied to grid carbon intensity could steer new construction toward cleaner regions such as the Pacific Northwest (632 lbs/MWh) or California (428 lbs/MWh), cutting per-facility emissions by up to half.
 
-**2. Water-impact assessments for permitting.** With 393 facilities in High or Extremely High water stress zones and 250 facing dual carbon-water risk, states such as Texas, Arizona, Colorado, and Nevada should require water-impact assessments in data center permitting, including minimum water-use efficiency standards and withdrawal caps in overstressed watersheds.
+**2. Water-impact assessments for permitting.** With 511 facilities in High or Extremely High water stress catchments and 284 facing dual carbon-water risk, water-impact assessments in data center permitting — including minimum water-use efficiency standards and withdrawal caps in overstressed watersheds — are warranted not only in Texas, Arizona, and Colorado but also in Virginia, whose Occoquan-basin cluster (Prince William and Fairfax counties) the corrected catchment-level analysis reveals as the single largest concentration of water-stressed facilities in the country.
 
-**3. Climate-informed long-term siting.** Data centers have 20-to-30-year lifespans, yet Aqueduct projections show Extremely High water stress catchments increasing 7.4% by 2080 under business-as-usual. Siting models should incorporate climate projections, favoring regions with stable water outlooks (Pacific Northwest, Upper Midwest, New England) over areas facing compounding stress (desert Southwest, Southern Plains).
+**3. Climate-informed long-term siting.** Data centers have 20-to-30-year lifespans, yet Aqueduct projections show Extremely High water stress catchments in North America increasing 7.4% by 2080 under business-as-usual (257 → 276 catchments). Siting models should incorporate climate projections, favoring regions with stable water outlooks (Pacific Northwest, Upper Midwest, New England) over areas facing compounding stress (desert Southwest, Southern Plains).
 
 **4. Transferability to emerging markets.** The spatial framework linking facilities to grid intensity and watershed stress is directly applicable to India's $200 billion data center buildout on a grid at double the U.S. average carbon intensity with only 4% of global freshwater, providing a template for environmental due diligence in siting decisions worldwide.
 
