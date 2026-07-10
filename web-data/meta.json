@@ -1,0 +1,111 @@
+{
+  "generated": "2026-07-10",
+  "pipeline": "code/preprocessing.py (see METHODS.md)",
+  "datasets": {
+    "im3_atlas": {
+      "name": "IM3 Open Source Data Center Atlas (PNNL/DOE)",
+      "version_used": "v2026.02.09",
+      "access_date": "2026-03-01",
+      "source_url": "https://data.msdlive.org/records/p147s-4h760",
+      "license": "ODbL 1.0 (OpenStreetMap-derived)",
+      "citation": "IM3/PNNL, Open Source Data Center Atlas, MSD-LIVE Data Repository, v2026.02.09 (2026), doi:10.57931/3017294"
+    },
+    "egrid": {
+      "name": "EPA eGRID 2023 (Revision 2)",
+      "version_used": "eGRID2023 rev2 (2025-06-12)",
+      "access_date": "2026-03-01",
+      "source_url": "https://www.epa.gov/system/files/documents/2025-06/egrid2023_data_rev2.xlsx",
+      "license": "US public domain",
+      "citation": "US EPA, Emissions & Generation Resource Integrated Database (eGRID) 2023 rev2, released June 12, 2025"
+    },
+    "egrid_subregions_shp": {
+      "name": "EPA eGRID2023 subregion shapefiles (primary + multiple-subregion overlaps)",
+      "version_used": "eGRID2023 (2025-01)",
+      "access_date": "2026-07-10",
+      "source_url": "https://www.epa.gov/egrid/egrid-mapping-files",
+      "license": "US public domain",
+      "citation": "US EPA, eGRID2023 Subregions GIS shapefiles (January 2025)"
+    },
+    "aqueduct40": {
+      "name": "WRI Aqueduct 4.0 Water Risk Atlas (baseline monthly + future annual, sub-basin CSVs)",
+      "version_used": "4.0 (y2023m07d05)",
+      "access_date": "2026-03-01",
+      "source_url": "https://files.wri.org/aqueduct/aqueduct-4-0-water-risk-data.zip",
+      "license": "CC BY 4.0",
+      "citation": "Kuzma et al. (2023), Aqueduct 4.0: Updated Decision-Relevant Global Water Risk Indicators, WRI"
+    },
+    "hydrobasins_lev06": {
+      "name": "HydroBASINS level-6 sub-basin polygons, standard, NA + Arctic (HydroSHEDS)",
+      "version_used": "v1c",
+      "access_date": "2026-07-10",
+      "source_url": "https://www.hydrosheds.org/products/hydrobasins",
+      "license": "HydroSHEDS license (free incl. commercial use, attribution required)",
+      "citation": "Lehner, B., Grill, G. (2013). Global river hydrography and network routing: baseline data and new approaches to study the world's large river systems. Hydrological Processes, 27(15), 2171-2186"
+    },
+    "fractracker": {
+      "name": "FracTracker Alliance US Data Centers Tracker",
+      "version_used": "snapshot 2026-07-10",
+      "access_date": "2026-07-10",
+      "source_url": "https://www.fractracker.org/data-centers/",
+      "license": "Free for non-commercial use with credit to FracTracker Alliance",
+      "citation": "FracTracker Alliance, U.S. Data Centers Tracker (accessed 2026-07-10), fractracker.org/data-centers"
+    },
+    "census_cartographic_boundaries": {
+      "name": "US Census cartographic boundary shapefiles (state/county, 1:20m)",
+      "version_used": "cb_2025 (GENZ2025)",
+      "access_date": "2026-07-10",
+      "source_url": "https://www2.census.gov/geo/tiger/GENZ2025/shp/",
+      "license": "US public domain",
+      "citation": "US Census Bureau, 2025 Cartographic Boundary Files"
+    }
+  },
+  "water_stress_vocabulary": {
+    "category_order": [
+      "Low",
+      "Low-Medium",
+      "Medium-High",
+      "High",
+      "Extremely High",
+      "Arid",
+      "No Data"
+    ],
+    "category_to_label": {
+      "Low": "Low (<10%)",
+      "Low-Medium": "Low-Medium (10-20%)",
+      "Medium-High": "Medium-High (20-40%)",
+      "High": "High (40-80%)",
+      "Extremely High": "Extremely High (>80%)",
+      "Arid": "Arid and Low Water Use",
+      "No Data": "No Data"
+    },
+    "category_colors": {
+      "Low": "#2ca02c",
+      "Low-Medium": "#a8d08d",
+      "Medium-High": "#ffd966",
+      "High": "#e36c09",
+      "Extremely High": "#c00000",
+      "Arid": "#9e9e9e",
+      "No Data": "#d9d9d9"
+    }
+  },
+  "headline_numbers": {
+    "n_facilities": 1474,
+    "n_states": 47,
+    "mean_co2_rate_unweighted_lb_mwh": 704.3,
+    "mean_co2_rate_sqft_weighted_lb_mwh": 785.6,
+    "n_high_water_stress": 511,
+    "pct_high_water_stress_of_with_data": 34.7,
+    "n_arid": 0,
+    "n_no_data": 0,
+    "n_dual_risk": 284,
+    "dual_risk_definition": "grid CO2 rate > 700 lb/MWh AND basin water stress High or Extremely High",
+    "n_with_mw_capacity": 87
+  },
+  "attribution": [
+    "Data center locations: IM3/PNNL Open Source Data Center Atlas (ODbL)",
+    "Grid emissions: US EPA eGRID2023",
+    "Water stress: WRI Aqueduct 4.0",
+    "Basin polygons: HydroSHEDS HydroBASINS v1c (Lehner & Grill 2013)",
+    "Capacity data: FracTracker Alliance US Data Centers Tracker (non-commercial, with credit)"
+  ]
+}

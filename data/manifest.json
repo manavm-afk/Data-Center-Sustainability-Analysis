@@ -1,0 +1,116 @@
+{
+  "_comment": "Dataset version manifest. Every number in the writeup must be reproducible from the versions pinned here. Refresh policy: pinned snapshots + explicit `python code/download_data.py --update <key>`; never silent auto-refresh. Run `python code/download_data.py --check-updates` to poll for newer versions.",
+  "datasets": {
+    "im3_atlas": {
+      "name": "IM3 Open Source Data Center Atlas (PNNL/DOE)",
+      "version_used": "v2026.02.09",
+      "access_date": "2026-03-01",
+      "source_url": "https://data.msdlive.org/records/p147s-4h760",
+      "stable_latest_alias": "https://data.msdlive.org/records/65g71-a4731/latest",
+      "doi": "10.57931/3017294",
+      "license": "ODbL 1.0 (OpenStreetMap-derived)",
+      "citation": "IM3/PNNL, Open Source Data Center Atlas, MSD-LIVE Data Repository, v2026.02.09 (2026), doi:10.57931/3017294",
+      "notes": "MSD-Live gates file bytes behind an authenticated S3 flow; the committed CSV in data/raw-data/ is the pinned snapshot. Version detection still works via the public InvenioRDM API.",
+      "version_check": {
+        "method": "api",
+        "url": "https://data.msdlive.org/api/records/65g71-a4731/versions/latest",
+        "field": "metadata.version",
+        "expect": "v2026.02.09"
+      }
+    },
+    "egrid": {
+      "name": "EPA eGRID 2023 (Revision 2)",
+      "version_used": "eGRID2023 rev2 (2025-06-12)",
+      "access_date": "2026-03-01",
+      "source_url": "https://www.epa.gov/system/files/documents/2025-06/egrid2023_data_rev2.xlsx",
+      "license": "US public domain",
+      "citation": "US EPA, Emissions & Generation Resource Integrated Database (eGRID) 2023 rev2, released June 12, 2025",
+      "notes": "eGRID2024 not released as of 2026-07-10. Sheet names carry the year suffix (PLNT23/SRL23/ST23); expect PLNT24/... when 2024 lands.",
+      "version_check": {
+        "method": "scrape",
+        "url": "https://www.epa.gov/egrid/detailed-data",
+        "pattern": "egrid(\\d{4})_data",
+        "expect": "2023",
+        "secondary_url": "https://api.github.com/repos/USEPA/egrid/releases/latest"
+      }
+    },
+    "egrid_subregions_shp": {
+      "name": "EPA eGRID2023 subregion shapefiles (primary + multiple-subregion overlaps)",
+      "version_used": "eGRID2023 (2025-01)",
+      "access_date": "2026-07-10",
+      "source_url": "https://www.epa.gov/egrid/egrid-mapping-files",
+      "license": "US public domain",
+      "citation": "US EPA, eGRID2023 Subregions GIS shapefiles (January 2025)",
+      "version_check": {
+        "method": "scrape",
+        "url": "https://www.epa.gov/egrid/egrid-mapping-files",
+        "pattern": "egrid(\\d{4})_subregions\\.zip",
+        "expect": "2023"
+      }
+    },
+    "aqueduct40": {
+      "name": "WRI Aqueduct 4.0 Water Risk Atlas (baseline monthly + future annual, sub-basin CSVs)",
+      "version_used": "4.0 (y2023m07d05)",
+      "access_date": "2026-03-01",
+      "source_url": "https://files.wri.org/aqueduct/aqueduct-4-0-water-risk-data.zip",
+      "license": "CC BY 4.0",
+      "citation": "Kuzma et al. (2023), Aqueduct 4.0: Updated Decision-Relevant Global Water Risk Indicators, WRI",
+      "notes": "Committed CSVs are the pinned snapshot (the old raw.githubusercontent URLs are dead). Canonical zip is ~262 MB and contains the same y2023m07d05 files. WRI re-runs the model every ~3-4 years; a 5.0 is plausible 2026-27.",
+      "version_check": {
+        "method": "head",
+        "url": "https://files.wri.org/aqueduct/aqueduct-4-0-water-risk-data.zip",
+        "expect_etag": "612e5aeca7f46f8a60888a39b5ed5ca6-16",
+        "expect_content_length": 261527511,
+        "secondary_url": "https://api.github.com/repos/wri/Aqueduct40/commits?per_page=1",
+        "secondary_expect_sha_prefix": "7a836ec"
+      }
+    },
+    "hydrobasins_lev06": {
+      "name": "HydroBASINS level-6 sub-basin polygons, standard, NA + Arctic (HydroSHEDS)",
+      "version_used": "v1c",
+      "access_date": "2026-07-10",
+      "source_url": "https://www.hydrosheds.org/products/hydrobasins",
+      "license": "HydroSHEDS license (free incl. commercial use, attribution required)",
+      "citation": "Lehner, B., Grill, G. (2013). Global river hydrography and network routing: baseline data and new approaches to study the world's large river systems. Hydrological Processes, 27(15), 2171-2186",
+      "notes": "COMPATIBILITY PIN: Aqueduct 4.0's pfaf_id is built on HydroBASINS v1. A future HydroBASINS v2 (re-derived on the TanDEM-X DEM) would re-compute Pfafstetter codes and BREAK the join. Alert-only; never auto-update.",
+      "version_check": {
+        "method": "scrape",
+        "url": "https://www.hydrosheds.org/products/hydrobasins",
+        "pattern": "version (\\d)",
+        "expect": "1",
+        "alert_only": true
+      }
+    },
+    "fractracker": {
+      "name": "FracTracker Alliance US Data Centers Tracker",
+      "version_used": "snapshot 2026-07-10",
+      "access_date": "2026-07-10",
+      "source_url": "https://www.fractracker.org/data-centers/",
+      "license": "Free for non-commercial use with credit to FracTracker Alliance",
+      "citation": "FracTracker Alliance, U.S. Data Centers Tracker (accessed 2026-07-10), fractracker.org/data-centers",
+      "notes": "Rolling dataset (live Google Sheet; ArcGIS feature service data_centers_v4_agol_all). The dated snapshot committed in data/raw-data/ is the reproducibility anchor. Known data typo: one row dated 3036 — dates clamped in QA.",
+      "version_check": {
+        "method": "api",
+        "url": "https://services.arcgis.com/jDGuO8tYggdCCnUJ/arcgis/rest/services/data_centers_v4_agol_all/FeatureServer/0?f=json",
+        "field": "editingInfo.dataLastEditDate",
+        "expect": null,
+        "report_only": true
+      }
+    },
+    "census_cartographic_boundaries": {
+      "name": "US Census cartographic boundary shapefiles (state/county, 1:20m)",
+      "version_used": "cb_2025 (GENZ2025)",
+      "access_date": "2026-07-10",
+      "source_url": "https://www2.census.gov/geo/tiger/GENZ2025/shp/",
+      "license": "US public domain",
+      "citation": "US Census Bureau, 2025 Cartographic Boundary Files",
+      "notes": "Fetched at runtime by code/generate_charts.py and cached in data/shapefiles/ (gitignored). Annual cadence; expect GENZ2026 ~April 2027.",
+      "version_check": {
+        "method": "scrape",
+        "url": "https://www2.census.gov/geo/tiger/",
+        "pattern": "GENZ(\\d{4})/",
+        "expect": "2025"
+      }
+    }
+  }
+}
