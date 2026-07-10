@@ -43,15 +43,20 @@ CATEGORY_TO_LABEL = {
     "Arid": "Arid and Low Water Use",
     "No Data": "No Data",
 }
+# Validated against the light chart surface (dataviz six-checks): lightness
+# band, chroma floor, CVD separation all pass; the two sub-3:1 steps rely on
+# the permanent legend + tooltips (relief rule). Dark variants swap only the
+# red for a brighter step; brighter-than-band steps are acceptable on dark.
 CATEGORY_COLORS = {
     "Low": "#2ca02c",
-    "Low-Medium": "#a8d08d",
-    "Medium-High": "#ffd966",
+    "Low-Medium": "#7dab4a",
+    "Medium-High": "#dfa813",
     "High": "#e36c09",
     "Extremely High": "#c00000",
     "Arid": "#9e9e9e",
     "No Data": "#d9d9d9",
 }
+CATEGORY_COLORS_DARK = {**CATEGORY_COLORS, "Extremely High": "#d03b3b", "No Data": "#4a4a47"}
 
 
 def _clean(records):
@@ -186,6 +191,7 @@ def export_meta(master):
             "category_order": CATEGORY_ORDER,
             "category_to_label": CATEGORY_TO_LABEL,
             "category_colors": CATEGORY_COLORS,
+            "category_colors_dark": CATEGORY_COLORS_DARK,
         },
         "headline_numbers": headline,
         "attribution": [
