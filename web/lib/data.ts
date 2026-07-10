@@ -39,7 +39,6 @@ export function getFacilityPoints(): FacilityPoint[] {
       subregion: (p.egrid_subregion as string | null) ?? null,
       bws,
       bwsScore: (p.bws_score as number | null) ?? null,
-      mw: (p.mw_capacity as number | null) ?? null,
       sqft: (p.sqft as number | null) ?? null,
       dualRisk:
         co2 !== null && co2 > 700 && (bws === "High" || bws === "Extremely High"),

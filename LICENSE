@@ -1,3 +1,12 @@
+SCOPE: This MIT license covers the SOURCE CODE in this repository only
+(code/, web/, and other scripts/configuration). It does NOT cover the
+datasets: the IM3-derived facility datasets in data/derived-data/ and
+web-data/ are licensed under the Open Database License v1.0 (see
+LICENSE-DATA), FracTracker-derived files are non-commercial with mandatory
+credit, and raw inputs keep their upstream licenses (see data/manifest.json).
+
+----------------------------------------------------------------------
+
 MIT License
 
 Copyright (c) 2026 Manav Mutneja

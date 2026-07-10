@@ -103,13 +103,18 @@ def _json_default(o):
     return str(o)
 
 
-def export_summaries(master, state, county):
+def export_summaries(master, state, county, ft_match):
     (WEB / "state_summary.json").write_text(
         json.dumps(_clean(state.to_dict(orient="records")), default=_json_default))
     (WEB / "county_summary.json").write_text(
         json.dumps(_clean(county.to_dict(orient="records")), default=_json_default))
 
-    sub = master.groupby(["egrid_subregion", "egrid_subregion_name"], dropna=False).agg(
+    # mw_capacity lives in the FracTracker sidecar, not the ODbL master; the
+    # per-subregion sum is an aggregate statistic (produced work), published
+    # with the mandatory FracTracker citation (see meta.json licensing block).
+    mw_by_id = dict(zip(ft_match["id"], ft_match["mw_capacity"])) if len(ft_match) else {}
+    sub_src = master.assign(mw_capacity=master["id"].map(mw_by_id))
+    sub = sub_src.groupby(["egrid_subregion", "egrid_subregion_name"], dropna=False).agg(
         dc_count=("id", "count"),
         total_sqft=("sqft", "sum"),
         co2_rate_lb_mwh=("SRCO2RTA", "first"),
@@ -150,7 +155,7 @@ def export_future(future):
     print(f"  future_projections.json: {len(records)} scenario/year/category records")
 
 
-def export_meta(master):
+def export_meta(master, ft_match):
     manifest = json.loads((ROOT / "data" / "manifest.json").read_text())
     datasets = {
         key: {
@@ -159,6 +164,8 @@ def export_meta(master):
             "access_date": e["access_date"],
             "source_url": e["source_url"],
             "license": e.get("license"),
+            "attribution": e.get("attribution"),
+            "redistribution": e.get("redistribution"),
             "citation": e.get("citation"),
         }
         for key, e in manifest["datasets"].items()
@@ -180,12 +187,22 @@ def export_meta(master):
         "n_no_data": int((master["bws_category"] == "No Data").sum()),
         "n_dual_risk": int((high & (master["SRCO2RTA"] > 700)).sum()),
         "dual_risk_definition": "grid CO2 rate > 700 lb/MWh AND basin water stress High or Extremely High",
-        "n_with_mw_capacity": int(master["mw_capacity"].notna().sum()),
+        "n_with_mw_capacity": int(ft_match["mw_capacity"].notna().sum()) if len(ft_match) else 0,
     }
 
     meta = {
         "generated": date.today().isoformat(),
         "pipeline": "code/preprocessing.py (see METHODS.md)",
+        "licensing": {
+            "code": "MIT (LICENSE — source code only)",
+            "facility_datasets": "ODbL 1.0 (LICENSE-DATA) — derivatives of the "
+                                 "IM3/PNNL atlas (OpenStreetMap-derived, share-alike)",
+            "fractracker_fields": "data/derived-data/fractracker_match.csv only — "
+                                  "non-commercial; mandatory citation: "
+                                  "Data provided by FracTracker Alliance (2026)",
+            "details": "data/manifest.json (per-dataset license, attribution, "
+                       "redistribution classification)",
+        },
         "datasets": datasets,
         "water_stress_vocabulary": {
             "category_order": CATEGORY_ORDER,
@@ -195,11 +212,11 @@ def export_meta(master):
         },
         "headline_numbers": headline,
         "attribution": [
-            "Data center locations: IM3/PNNL Open Source Data Center Atlas (ODbL)",
-            "Grid emissions: US EPA eGRID2023",
-            "Water stress: WRI Aqueduct 4.0",
+            "Data center locations: IM3/PNNL Open Source Data Center Atlas (ODbL 1.0; (c) OpenStreetMap contributors)",
+            "Grid emissions: US EPA eGRID2023 (public domain)",
+            "Water stress: WRI Aqueduct 4.0 (CC BY 4.0)",
             "Basin polygons: HydroSHEDS HydroBASINS v1c (Lehner & Grill 2013)",
-            "Capacity data: FracTracker Alliance US Data Centers Tracker (non-commercial, with credit)",
+            "MW aggregates: Data provided by FracTracker Alliance (2026) — non-commercial",
         ],
     }
     (WEB / "meta.json").write_text(json.dumps(meta, indent=2, default=_json_default))
@@ -213,11 +230,16 @@ def main():
     state = pd.read_csv(DERIVED / "state_summary.csv")
     county = pd.read_csv(DERIVED / "county_summary.csv")
     future = pd.read_csv(DERIVED / "aqueduct_future_water_stress_na.csv")
+    # FracTracker sidecar (non-commercial, credited): facility-level fields
+    # stay OUT of facilities.geojson; only aggregates/counts are derived here.
+    ft_path = DERIVED / "fractracker_match.csv"
+    ft_match = (pd.read_csv(ft_path, dtype={"id": str}) if ft_path.exists()
+                else pd.DataFrame(columns=["id", "mw_capacity"]))
 
     export_facilities(master)
-    export_summaries(master, state, county)
+    export_summaries(master, state, county, ft_match)
     export_future(future)
-    headline = export_meta(master)
+    headline = export_meta(master, ft_match)
 
     # Validation: every file parses; facility count matches; coordinates in range
     errors = []
@@ -228,6 +250,12 @@ def main():
     lats = [f["geometry"]["coordinates"][1] for f in gj["features"]]
     if not all(-180 <= x <= -60 for x in lons) or not all(15 <= y <= 72 for y in lats):
         errors.append("coordinates outside CONUS+PR+AK bounds")
+    # License consistency: non-commercial FracTracker fields must never ship
+    # inside the ODbL-licensed facilities layer (LICENSE-DATA).
+    ft_leak = {"mw_capacity", "mw_source", "match_dist_m", "ft_status",
+               "qa_operator_mismatch"} & set(gj["features"][0]["properties"])
+    if ft_leak:
+        errors.append(f"FracTracker columns leaked into ODbL facilities.geojson: {sorted(ft_leak)}")
     for name in ["state_summary.json", "county_summary.json", "subregion_summary.json",
                  "future_projections.json", "meta.json"]:
         json.loads((WEB / name).read_text())

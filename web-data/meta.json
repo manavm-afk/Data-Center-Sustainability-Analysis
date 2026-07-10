@@ -1,6 +1,12 @@
 {
   "generated": "2026-07-10",
   "pipeline": "code/preprocessing.py (see METHODS.md)",
+  "licensing": {
+    "code": "MIT (LICENSE \u2014 source code only)",
+    "facility_datasets": "ODbL 1.0 (LICENSE-DATA) \u2014 derivatives of the IM3/PNNL atlas (OpenStreetMap-derived, share-alike)",
+    "fractracker_fields": "data/derived-data/fractracker_match.csv only \u2014 non-commercial; mandatory citation: Data provided by FracTracker Alliance (2026)",
+    "details": "data/manifest.json (per-dataset license, attribution, redistribution classification)"
+  },
   "datasets": {
     "im3_atlas": {
       "name": "IM3 Open Source Data Center Atlas (PNNL/DOE)",
@@ -8,6 +14,8 @@
       "access_date": "2026-03-01",
       "source_url": "https://data.msdlive.org/records/p147s-4h760",
       "license": "ODbL 1.0 (OpenStreetMap-derived)",
+      "attribution": "IM3/PNNL Open Source Data Center Atlas, DOI 10.57931/3017294 (ODbL 1.0; OpenStreetMap-derived \u2014 (c) OpenStreetMap contributors)",
+      "redistribution": "redistributable",
       "citation": "IM3/PNNL, Open Source Data Center Atlas, MSD-LIVE Data Repository, v2026.02.09 (2026), doi:10.57931/3017294"
     },
     "egrid": {
@@ -16,6 +24,8 @@
       "access_date": "2026-03-01",
       "source_url": "https://www.epa.gov/system/files/documents/2025-06/egrid2023_data_rev2.xlsx",
       "license": "US public domain",
+      "attribution": "US EPA, eGRID2023 rev2",
+      "redistribution": "redistributable",
       "citation": "US EPA, Emissions & Generation Resource Integrated Database (eGRID) 2023 rev2, released June 12, 2025"
     },
     "egrid_subregions_shp": {
@@ -24,6 +34,8 @@
       "access_date": "2026-07-10",
       "source_url": "https://www.epa.gov/egrid/egrid-mapping-files",
       "license": "US public domain",
+      "attribution": "US EPA, eGRID2023 Subregions GIS shapefiles",
+      "redistribution": "redistributable",
       "citation": "US EPA, eGRID2023 Subregions GIS shapefiles (January 2025)"
     },
     "aqueduct40": {
@@ -32,6 +44,8 @@
       "access_date": "2026-03-01",
       "source_url": "https://files.wri.org/aqueduct/aqueduct-4-0-water-risk-data.zip",
       "license": "CC BY 4.0",
+      "attribution": "WRI Aqueduct 4.0 (Kuzma et al. 2023), CC BY 4.0",
+      "redistribution": "redistributable",
       "citation": "Kuzma et al. (2023), Aqueduct 4.0: Updated Decision-Relevant Global Water Risk Indicators, WRI"
     },
     "hydrobasins_lev06": {
@@ -40,6 +54,8 @@
       "access_date": "2026-07-10",
       "source_url": "https://www.hydrosheds.org/products/hydrobasins",
       "license": "HydroSHEDS license (free incl. commercial use, attribution required)",
+      "attribution": "HydroSHEDS HydroBASINS v1c (Lehner & Grill 2013)",
+      "redistribution": "redistributable",
       "citation": "Lehner, B., Grill, G. (2013). Global river hydrography and network routing: baseline data and new approaches to study the world's large river systems. Hydrological Processes, 27(15), 2171-2186"
     },
     "fractracker": {
@@ -47,7 +63,9 @@
       "version_used": "snapshot 2026-07-10",
       "access_date": "2026-07-10",
       "source_url": "https://www.fractracker.org/data-centers/",
-      "license": "Free for non-commercial use with credit to FracTracker Alliance",
+      "license": "Free for non-commercial use with credit to FracTracker Alliance (fractracker.org/terms-of-service)",
+      "attribution": "Data provided by FracTracker Alliance (2026)",
+      "redistribution": "redistributable-noncommercial",
       "citation": "FracTracker Alliance, U.S. Data Centers Tracker (accessed 2026-07-10), fractracker.org/data-centers"
     },
     "census_cartographic_boundaries": {
@@ -56,6 +74,8 @@
       "access_date": "2026-07-10",
       "source_url": "https://www2.census.gov/geo/tiger/GENZ2025/shp/",
       "license": "US public domain",
+      "attribution": "US Census Bureau, Cartographic Boundary Files",
+      "redistribution": "fetch-by-script",
       "citation": "US Census Bureau, 2025 Cartographic Boundary Files"
     }
   },
@@ -111,10 +131,10 @@
     "n_with_mw_capacity": 87
   },
   "attribution": [
-    "Data center locations: IM3/PNNL Open Source Data Center Atlas (ODbL)",
-    "Grid emissions: US EPA eGRID2023",
-    "Water stress: WRI Aqueduct 4.0",
+    "Data center locations: IM3/PNNL Open Source Data Center Atlas (ODbL 1.0; (c) OpenStreetMap contributors)",
+    "Grid emissions: US EPA eGRID2023 (public domain)",
+    "Water stress: WRI Aqueduct 4.0 (CC BY 4.0)",
     "Basin polygons: HydroSHEDS HydroBASINS v1c (Lehner & Grill 2013)",
-    "Capacity data: FracTracker Alliance US Data Centers Tracker (non-commercial, with credit)"
+    "MW aggregates: Data provided by FracTracker Alliance (2026) \u2014 non-commercial"
   ]
 }

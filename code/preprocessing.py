@@ -15,6 +15,11 @@ provenance:
                         (cat == -1) are masked/handled explicitly.
   * Capacity (MW)     : conservative <=500 m one-to-one spatial match to the
                         FracTracker US Data Centers snapshot; no imputation.
+                        FracTracker-derived facility columns are written ONLY
+                        to fractracker_match.csv (non-commercial, credit
+                        "Data provided by FracTracker Alliance (2026)"), never
+                        to the ODbL-licensed master outputs — ODbL share-alike
+                        cannot absorb non-commercial content (see LICENSE-DATA).
 
 A before/after QA report is written to data/derived-data/qa_report.md.
 
@@ -703,7 +708,11 @@ MASTER_COLS = [
     # water stress + provenance
     "pfaf_id", "bws_score", "bws_raw", "bws_summer_mean_score", "is_arid",
     "bws_category", "bws_label", "merge_method", "basin_match_dist_km",
-    # capacity
+]
+
+# FracTracker-derived columns: distributed ONLY via fractracker_match.csv
+# (non-commercial, mandatory credit), never inside the ODbL master outputs.
+FRACTRACKER_COLS = [
     "mw_capacity", "mw_source", "match_dist_m", "ft_status", "qa_operator_mismatch",
 ]
 
@@ -712,8 +721,16 @@ def write_outputs(master):
     print("\n10. Writing facility-level outputs...")
     master[MASTER_COLS].to_csv(OUT_DIR / "datacenters_master.csv", index=False)
 
+    # FracTracker sidecar: matched rows only, keyed by facility id. Separate
+    # file because its terms (non-commercial, credit) are incompatible with
+    # the ODbL share-alike license on the master outputs.
+    matched = master.loc[master["mw_source"].notna(), ["id"] + FRACTRACKER_COLS]
+    matched.to_csv(OUT_DIR / "fractracker_match.csv", index=False)
+    print(f"   fractracker_match.csv: {len(matched)} matched facilities "
+          "(non-commercial — Data provided by FracTracker Alliance (2026))")
+
     emissions_cols = [c for c in MASTER_COLS if not c.startswith(("bws", "pfaf", "merge",
-                      "basin", "mw_", "match_dist", "ft_", "qa_operator", "is_arid"))]
+                      "basin", "is_arid"))]
     master[emissions_cols].to_csv(OUT_DIR / "datacenters_with_emissions.csv", index=False)
 
     water_cols = ["id", "state", "state_abb", "county", "county_id", "fips",
@@ -818,6 +835,11 @@ def write_qa_report(baseline, master):
             lines.append(_md_table(top_pairs))
 
     lines.append("\n## FracTracker capacity match\n")
+    lines.append("Facility-level FracTracker columns ship ONLY in "
+                 "`fractracker_match.csv` (non-commercial; mandatory citation "
+                 "\"Data provided by FracTracker Alliance (2026)\"), keyed by "
+                 "facility `id` — they are excluded from the ODbL-licensed "
+                 "master outputs.\n")
     matched = master["mw_source"].notna()
     lines.append(f"- Matched facilities (<=500 m, one-to-one): {int(matched.sum())}")
     if matched.any():
