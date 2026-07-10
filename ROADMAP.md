@@ -250,13 +250,67 @@ members) scoped before the review round.
 
 ---
 
-## Sequencing
+## Sequencing — as amended by the red-team pass (binding)
 
-Phase 1.0 (blocking, ~1 wk) → 1.1–1.5 in weekly PRs → 1.6–1.7 → **Phase 2.1
-dataset release EARLY** (can start in parallel with Phase 1's back half) →
-2.2–2.7 → joint publication + dashboard India section. Every stage lands with
-an updated qa_report.md and manifest entries; re-runs triggered by watchlist
-events are documented, never silent.
+**Honest timeline at 15–20 hrs/wk solo: ~6–8 months end-to-end** (Phase 1.0
+≈ 2–3 wks; Phase 1 ≈ 10–14 wks; Phase 2 ≈ 9–13 wks). The earlier 10–13-week
+figure priced each workstream at a week; 1.3 alone contains three
+mini-projects. Plan to this reality, not the optimistic one.
+
+**Priority ruling:** under the real hours constraint, the **India dataset
+v0.1 wins any tiebreak** — the niche closes on a months timescale while the
+US field is already occupied by LBNL/Bloomberg/Business Insider. v0.1 =
+top-6 metros, operational facilities, full per-facility provenance, Zenodo
+DOI — shipped in the first 2–3 weeks of Phase 2, pulled EARLIER if
+niche-closure risk sharpens. Tiering is stated in the data paper; timestamp
+beats completeness.
+
+**Serialize, don't parallelize:** one person context-switching between US
+hydrology and Parivesh scraping finishes neither. One hard handoff date from
+Phase 1 core to Phase 2.
+
+**Week-1 external asks (calendar latency runs in parallel or not at all):**
+FracTracker permission email, reviewer recruitment (3–5 names), WRI
+India/CEEW/DFL introductions, Business Insider database request, Green Screen
+fund inquiry — all sent in week 1 with a send date and a no-reply fallback
+each. FracTracker Plan B (if denied): FracTracker columns become
+regenerate-by-script only (documented script, no redistribution), and the
+open US release ships without them.
+
+**Working rules:** (1) every task gets a definition-of-done and a time-box at
+phase start; if the box expires, ship without it and log the cut. (2)
+Vintages pin at phase start; watchlist events get a logged note, not a
+re-run, until after publication. (3) No new dataset enters the manifest
+without a license/ToS row first. (4) Every headline: one central estimate,
+one band, top two named sensitivities — no sensitivity sprawl. (5) Sample
+error rates in audits; never chase individual facilities.
+
+**Positioning decision (made):** neutral open-data provider leads;
+findings are framed as disclosure-gap measurement in service of the
+incumbents' own recommendations (CEEW's mandatory-disclosure agenda).
+Right-of-reply extends to Indian operators; the EC audit is shared with
+WRI India/CEEW BEFORE publication, and engagement precedes the audit's
+release, not the reverse.
+
+**Scoop contingency:** a mid-Phase-1 working-paper/preprint checkpoint stakes
+the US peak-day claim (in case Han et al. release code/data);
+**hiring-manager checkpoint (October 2026):** a portfolio layer — README with
+three findings, one dashboard view, one short method note, 10-minute entry
+point — ships regardless of research completeness.
+
+**Deferred to v2 (cuts are scoping, not omission — stated in the README):**
+hourly EIA-930 analysis beyond one demo cluster; full BTM-gas channel (one
+documented EF sensitivity note instead); national basin-of-supply coverage
+(VA/WMA + top-5 clusters in v1); national peak-day downscaling (Occoquan +
+2–3 confirmed-coverage clusters in v1; Han et al. as comparison table);
+dual-risk surface beyond two axes (attribution geography × water indicator);
+county PDFs beyond 3–5 (one user-tested first — three user interviews before
+PDF design); full right-of-reply program (corrections log + GitHub issue
+template in v1); PUC-jurisdiction layer; pandera/full test pyramid (headline
+regression tests + license check in v1); full 15-state India policy coding
+(killer chart + one table in v1); 2.4/2.5 collapse into one scenario memo.
+
+Every stage still lands with an updated qa_report.md and manifest entries.
 
 ## Success criteria (de facto, per PDIA)
 
