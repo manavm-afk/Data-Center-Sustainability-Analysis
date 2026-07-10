@@ -91,8 +91,8 @@ geometry; the polygons are HydroBASINS level-6. The join:
 | `bws_category` | `bws_label` | Score bin | Color |
 |---|---|---|---|
 | Low | Low (<10%) | [0, 1) | `#2ca02c` |
-| Low-Medium | Low-Medium (10-20%) | [1, 2) | `#a8d08d` |
-| Medium-High | Medium-High (20-40%) | [2, 3) | `#ffd966` |
+| Low-Medium | Low-Medium (10-20%) | [1, 2) | `#7dab4a` |
+| Medium-High | Medium-High (20-40%) | [2, 3) | `#dfa813` |
 | High | High (40-80%) | [3, 4) | `#e36c09` |
 | Extremely High | Extremely High (>80%) | [4, 5] | `#c00000` |
 | Arid | Arid and Low Water Use | `cat == -1`, not score | `#9e9e9e` |
