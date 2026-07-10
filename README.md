@@ -2,11 +2,13 @@
 
 **Spatial analysis of U.S. AI data center locations, grid carbon intensity, and regional water stress to inform sustainable siting decisions.**
 
-> Individual professional-grade revamp (2026) by **Manav Mutneja** (`manavm-afk`), extending a
-> UChicago Harris DAP II (30538) group project with Ankit Dixit. Phase 0 replaced every
-> untraceable assignment in the original pipeline with documented spatial joins —
+> A professional-grade siting analysis by **Manav Mutneja** (`manavm-afk`). Phase 0 replaced
+> every untraceable assignment in the predecessor pipeline with documented spatial joins —
 > see [METHODS.md](METHODS.md) and the before/after in
 > [data/derived-data/qa_report.md](data/derived-data/qa_report.md).
+> An earlier version originated as a Winter 2026 UChicago Harris course project
+> (co-authored with Ankit Dixit); all current methods, code, and findings are the
+> author's own work.
 
 ## Research Question
 

@@ -2,11 +2,9 @@
 title: "Ecological Burden of Data Centers in the United States"
 subtitle: "Spatial Analysis of Grid Carbon Intensity and Regional Water Stress"
 author:
-  - name: "Ankit Dixit"
-    affiliations: "PPHA 30538 Data Analytics and Visualization for Public Policy, Section 3"
   - name: "Manav Mutneja"
-    affiliations: "PPHA 30538 Data Analytics and Visualization for Public Policy, Section 2"
-date: "March 9, 2026"
+    affiliations: "Harris School of Public Policy, University of Chicago"
+date: "July 10, 2026"
 format:
   pdf:
     documentclass: article
@@ -26,15 +24,17 @@ execute:
   warning: false
 ---
 
-**Project Repo:** [Datacenter Sustainability Analysis](https://github.com/manavm-afk/AI-datacenter-sustainability-analysis)
+**Project Repo:** [Data-Center-Sustainability-Analysis](https://github.com/manavm-afk/Data-Center-Sustainability-Analysis)
 
 ::: {.callout-note}
-**Revision (July 2026).** This summary reflects the Phase-0 integrity revision of the original
-Winter 2026 group analysis: water stress is now assigned by a true point-in-polygon join into
-HydroBASINS level-6 basins (replacing a state-level approximation), grid subregions by
-point-in-polygon against EPA's official eGRID boundaries (replacing a nearest-power-plant proxy),
-and summaries report square-footage-weighted rates. All headline numbers changed accordingly;
-the full before/after is in `data/derived-data/qa_report.md`, methods in `METHODS.md`.
+**Revision (July 2026).** This summary reflects the Phase-0 integrity revision: water stress is
+now assigned by a true point-in-polygon join into HydroBASINS level-6 basins (replacing a
+state-level approximation), grid subregions by point-in-polygon against EPA's official eGRID
+boundaries (replacing a nearest-power-plant proxy), and summaries report square-footage-weighted
+rates. All headline numbers changed accordingly; the full before/after is in
+`data/derived-data/qa_report.md`, methods in `METHODS.md`. An earlier version of this analysis
+originated as a Winter 2026 UChicago Harris course project co-authored with Ankit Dixit; all
+Phase-0 methods, code, and findings in this revision are the sole work of the author.
 :::
 
 
