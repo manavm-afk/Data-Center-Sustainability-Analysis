@@ -31,6 +31,12 @@ Thumbs.db
 # Census boundary shapefiles (cached by generate_charts.py)
 data/shapefiles/
 
+# Downloaded/extracted geo layers (restored by code/download_data.py)
+data/raw-data/shapefiles/
+
+# Personal working artifacts kept out of the analysis repo
+archive/
+
 # Large raw data files (download links in README.md)
 # Uncomment these if raw data files exceed 100MB:
 # data/raw-data/egrid2023_data_rev2.xlsx
