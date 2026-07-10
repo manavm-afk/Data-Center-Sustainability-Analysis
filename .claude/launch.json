@@ -6,6 +6,12 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev", "--prefix", "web"],
       "port": 3000
+    },
+    {
+      "name": "web-static-export",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "4173", "-d", "web/out"],
+      "port": 4173
     }
   ]
 }
