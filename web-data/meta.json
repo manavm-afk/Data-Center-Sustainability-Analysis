@@ -80,12 +80,21 @@
     },
     "category_colors": {
       "Low": "#2ca02c",
-      "Low-Medium": "#a8d08d",
-      "Medium-High": "#ffd966",
+      "Low-Medium": "#7dab4a",
+      "Medium-High": "#dfa813",
       "High": "#e36c09",
       "Extremely High": "#c00000",
       "Arid": "#9e9e9e",
       "No Data": "#d9d9d9"
+    },
+    "category_colors_dark": {
+      "Low": "#2ca02c",
+      "Low-Medium": "#7dab4a",
+      "Medium-High": "#dfa813",
+      "High": "#e36c09",
+      "Extremely High": "#d03b3b",
+      "Arid": "#9e9e9e",
+      "No Data": "#4a4a47"
     }
   },
   "headline_numbers": {

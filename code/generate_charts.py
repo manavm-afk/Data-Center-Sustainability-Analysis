@@ -299,7 +299,7 @@ def fig4_water_stress():
     # Canonical vocabulary (kept in sync with preprocessing.py CATEGORY_TO_LABEL
     # and web-data/meta.json; see METHODS.md)
     ws_order = ["Low", "Low-Medium", "Medium-High", "High", "Extremely High", "Arid", "No Data"]
-    ws_colors = ["#2ca02c", "#a8d08d", "#ffd966", "#e36c09", "#c00000", "#9e9e9e", "#d9d9d9"]
+    ws_colors = ["#2ca02c", "#7dab4a", "#dfa813", "#e36c09", "#c00000", "#9e9e9e", "#d9d9d9"]
 
     ws_counts = master["bws_category"].value_counts()
     present = [(c, col) for c, col in zip(ws_order, ws_colors) if ws_counts.get(c, 0) > 0]
