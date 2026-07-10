@@ -17,3 +17,8 @@ One-time setup (~3 minutes, requires your Vercel account):
 No environment variables are needed — the app is fully static against the
 committed `web-data/` JSON layer. When the pipeline re-runs, commit the
 regenerated `web-data/` and the next deploy picks it up.
+
+> **Gotcha:** after changing **Root Directory**, don't use *Redeploy* on an old
+> failed deployment — trigger a fresh build with a new push to `main` (any
+> commit). Redeploys of a pre-fix deployment can keep failing with the Python
+> entrypoint error.
