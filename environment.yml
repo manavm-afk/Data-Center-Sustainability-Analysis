@@ -10,8 +10,6 @@ dependencies:
   - openpyxl>=3.1
   - geopandas>=0.14
   - matplotlib>=3.7
-  - altair>=5.0
-  - streamlit>=1.30
   - jupyter
   - pip
   - pip:

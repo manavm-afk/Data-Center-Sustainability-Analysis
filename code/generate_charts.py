@@ -38,13 +38,10 @@ LBS_TO_KG = 0.453592
 
 # ── Load data ─────────────────────────────────────────────────────────────
 print("Loading data...")
-master = pd.read_csv(DERIVED / "datacenters_master.csv")
+master = pd.read_csv(DERIVED / "datacenters_master.csv", dtype={"id": str})
 state_summary = pd.read_csv(DERIVED / "state_summary.csv")
-county_summary = pd.read_csv(DERIVED / "county_summary.csv")
-future_ws = pd.read_csv(DERIVED / "aqueduct_future_water_stress_na.csv")
 
-print(f"  Master: {len(master):,} rows, States: {len(state_summary)}, Counties: {len(county_summary)}")
-print(f"  Future water stress: {len(future_ws):,} catchments")
+print(f"  Master: {len(master):,} rows, States: {len(state_summary)}")
 
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -53,11 +50,13 @@ print(f"  Future water stress: {len(future_ws):,} catchments")
 def fig1_top_states():
     print("\n[Figure 1] Top 10 States by Data Center Count...")
 
-    top10 = state_summary.nlargest(10, "dc_count").iloc[::-1]
+    top10 = state_summary.nlargest(10, "dc_count").iloc[::-1].copy()
+    # sqft-weighted rate is primary; fall back to unweighted where weights are absent
+    top10["co2_for_plot"] = top10["mean_co2_rate_sqftw"].fillna(top10["mean_co2_rate"])
 
     fig, ax = plt.subplots(figsize=(10, 6))
 
-    co2_vals = top10["mean_co2_rate"].values
+    co2_vals = top10["co2_for_plot"].values
     norm = plt.Normalize(vmin=350, vmax=1100)
     cmap = plt.cm.RdYlGn_r
     colors = [cmap(norm(v)) for v in co2_vals]
@@ -65,14 +64,14 @@ def fig1_top_states():
     bars = ax.barh(top10["state"], top10["dc_count"], color=colors, edgecolor="gray", linewidth=0.5)
 
     for bar, (_, row) in zip(bars, top10.iterrows()):
-        lbs = row["mean_co2_rate"]
+        lbs = row["co2_for_plot"]
         kg = lbs * LBS_TO_KG
         label = f"{lbs:.0f} lbs/MWh ({kg:.0f} kg/MWh)"
         ax.text(bar.get_width() + 3, bar.get_y() + bar.get_height() / 2,
                 label, va="center", fontsize=9)
 
     ax.set_xlabel("Number of Data Centers", fontsize=12)
-    ax.set_title("Top 10 States by Data Center Count\n(Color = Mean Grid CO\u2082 Rate)",
+    ax.set_title("Top 10 States by Data Center Count\n(Color = Sqft-Weighted Grid CO\u2082 Rate)",
                   fontsize=13, fontweight="bold")
     ax.set_xlim(0, max(top10["dc_count"]) * 1.45)
 
@@ -94,8 +93,8 @@ def fig1_top_states():
 # Uses Census Bureau cartographic boundary shapefiles for county + state layers
 # ══════════════════════════════════════════════════════════════════════════
 
-COUNTY_URL = "https://www2.census.gov/geo/tiger/GENZ2023/shp/cb_2023_us_county_20m.zip"
-STATE_URL  = "https://www2.census.gov/geo/tiger/GENZ2023/shp/cb_2023_us_state_20m.zip"
+COUNTY_URL = "https://www2.census.gov/geo/tiger/GENZ2025/shp/cb_2025_us_county_20m.zip"
+STATE_URL  = "https://www2.census.gov/geo/tiger/GENZ2025/shp/cb_2025_us_state_20m.zip"
 CACHE_DIR  = ROOT / "data" / "shapefiles"
 
 
@@ -104,8 +103,8 @@ def _load_boundaries():
     import geopandas as gpd
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
 
-    county_cache = CACHE_DIR / "cb_2023_us_county_20m"
-    state_cache  = CACHE_DIR / "cb_2023_us_state_20m"
+    county_cache = CACHE_DIR / "cb_2025_us_county_20m"
+    state_cache  = CACHE_DIR / "cb_2025_us_state_20m"
 
     if county_cache.exists() and any(county_cache.glob("*.shp")):
         counties = gpd.read_file(county_cache)
@@ -212,20 +211,31 @@ def fig2b_county_map():
     fig, ax = plt.subplots(figsize=(14, 9))
     df, scatter = _base_map(fig, ax, counties, states, master)
 
-    annots = [
-        (-77.4,  39.05, "N. Virginia\n(303 DCs)",     30, -25),
-        (-121.9, 37.4,  "Santa Clara, CA\n(75 DCs)", -50, -30),
-        (-112.0, 33.5,  "Phoenix, AZ\n(63 DCs)",     -20, -30),
-        (-119.7, 45.6,  "Portland, OR\n(85 DCs)",    -60,  15),
-        (-119.5, 47.4,  "Grant Co., WA\n(39 DCs)",   -70,  10),
-        (-93.6,  41.6,  "Des Moines, IA\n(26 DCs)",   20,  15),
-        (-87.7,  42.0,  "Chicago, IL\n(29 DCs)",      15,  20),
-        (-82.8,  40.0,  "Columbus, OH\n(65 DCs)",     20,  15),
-        (-96.8,  33.0,  "Dallas, TX\n(25 DCs)",      -20, -25),
-        (-98.5,  29.4,  "San Antonio, TX\n(33 DCs)", -50, -20),
-    ]
-    for lon, lat, label, dx, dy in annots:
-        ax.annotate(label, (lon, lat), xytext=(dx, dy), textcoords="offset points",
+    # Data-driven annotations: top 10 county clusters by facility count.
+    # Manual offsets (keyed by FIPS) only nudge label placement; counts always
+    # come from the data so they can never drift from it.
+    clusters = df.groupby(["fips", "county", "state_abb"]).agg(
+        dc_count=("id", "count"), mean_lon=("lon", "mean"), mean_lat=("lat", "mean"),
+    ).reset_index().nlargest(10, "dc_count")
+
+    label_offsets = {
+        "51107": (30, -25),   # Loudoun VA
+        "06085": (-50, -30),  # Santa Clara CA
+        "04013": (-20, -30),  # Maricopa AZ
+        "41021": (-70, 15),   # Gilliam/Morrow OR area
+        "41059": (-70, 15),   # Umatilla OR
+        "53025": (-70, 10),   # Grant WA
+        "17031": (15, 20),    # Cook IL
+        "39049": (20, 15),    # Franklin OH
+        "48113": (-20, -25),  # Dallas TX
+        "48029": (-50, -20),  # Bexar TX
+    }
+    for _, row in clusters.iterrows():
+        fips = str(row["fips"]).zfill(5)
+        label = f"{row['county']}, {row['state_abb']}\n({row['dc_count']:.0f} DCs)"
+        dx, dy = label_offsets.get(fips, (20, 15))
+        ax.annotate(label, (row["mean_lon"], row["mean_lat"]),
+                    xytext=(dx, dy), textcoords="offset points",
                     fontsize=7.5, fontweight="bold",
                     bbox=dict(boxstyle="round,pad=0.2", facecolor="white", alpha=0.85, edgecolor="gray"),
                     arrowprops=dict(arrowstyle="-", color="gray", lw=0.8), zorder=5)
@@ -286,20 +296,24 @@ def fig4_water_stress():
 
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
 
-    ws_order = ["Low", "Low-Medium", "Medium-High", "High", "Extremely High"]
-    ws_colors = ["#2ca02c", "#a8d08d", "#ffd966", "#e36c09", "#c00000"]
+    # Canonical vocabulary (kept in sync with preprocessing.py CATEGORY_TO_LABEL
+    # and web-data/meta.json; see METHODS.md)
+    ws_order = ["Low", "Low-Medium", "Medium-High", "High", "Extremely High", "Arid", "No Data"]
+    ws_colors = ["#2ca02c", "#a8d08d", "#ffd966", "#e36c09", "#c00000", "#9e9e9e", "#d9d9d9"]
 
-    ws_counts = master["bws_state_category"].value_counts()
-    sizes = [ws_counts.get(cat, 0) for cat in ws_order]
+    ws_counts = master["bws_category"].value_counts()
+    present = [(c, col) for c, col in zip(ws_order, ws_colors) if ws_counts.get(c, 0) > 0]
+    sizes = [ws_counts.get(c, 0) for c, _ in present]
 
     wedges, texts, autotexts = ax1.pie(
         sizes, labels=None, autopct=lambda p: f"{p:.1f}%",
-        colors=ws_colors, startangle=90, pctdistance=0.75, textprops={"fontsize": 10})
+        colors=[col for _, col in present], startangle=90, pctdistance=0.75,
+        textprops={"fontsize": 10})
     ax1.set_title("Data Centers by\nWater Stress Category", fontsize=12, fontweight="bold")
-    ax1.legend(wedges, [f"{c} ({ws_counts.get(c,0)})" for c in ws_order],
+    ax1.legend(wedges, [f"{c} ({ws_counts.get(c, 0)})" for c, _ in present],
                title="Water Stress Level", loc="lower left", fontsize=8, title_fontsize=9)
 
-    high_stress = master[master["bws_state_category"].isin(["High", "Extremely High"])]
+    high_stress = master[master["bws_category"].isin(["High", "Extremely High"])]
     state_high = high_stress.groupby("state_abb").size().nlargest(7).iloc[::-1]
 
     bars = ax2.barh(state_high.index, state_high.values,
@@ -330,7 +344,8 @@ def fig5_dual_risk():
     ws_x_map = {cat: i for i, cat in enumerate(ws_order)}
 
     df = master.copy()
-    df["ws_x"] = df["bws_state_category"].map(ws_x_map)
+    df["ws_x"] = df["bws_category"].map(ws_x_map)
+    n_excluded = int(df["ws_x"].isna().sum())
     df = df.dropna(subset=["ws_x", "SRCO2RTA"])
 
     np.random.seed(42)
@@ -356,7 +371,7 @@ def fig5_dual_risk():
     dual_df = df[dual_risk_mask]
     top5 = dual_df.groupby("state_abb").agg(
         count=("id", "count"), mean_co2=("SRCO2RTA", "mean"),
-        ws_cat=("bws_state_category", "first"),
+        ws_cat=("bws_category", "first"),
     ).nlargest(5, "count").reset_index()
 
     lines = ["     Top 5 Dual-Risk States", "  " + "\u2500" * 42,
@@ -388,7 +403,10 @@ def fig5_dual_risk():
     ax1.set_xticks(range(5))
     ax1.set_xticklabels(["Low\n(<10%)", "Low-Med\n(10-20%)", "Med-High\n(20-40%)",
                           "High\n(40-80%)", "Ext. High\n(>80%)"], fontsize=10)
-    ax1.set_xlabel("Water Stress Category (WRI Aqueduct 4.0)", fontsize=12)
+    xlabel = "Water Stress Category (WRI Aqueduct 4.0, catchment-level)"
+    if n_excluded:
+        xlabel += f"\n{n_excluded} facilities in Arid/No Data basins excluded from this axis"
+    ax1.set_xlabel(xlabel, fontsize=12)
     ax1.set_ylabel("Grid CO\u2082 Emission Rate (lbs/MWh)", fontsize=11)
     ax1.set_title("Data Centers: Grid Carbon Intensity vs. Water Stress\n"
                    "(Bubble size = facility square footage)", fontsize=13, fontweight="bold")
