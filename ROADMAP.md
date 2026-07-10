@@ -312,13 +312,174 @@ regression tests + license check in v1); full 15-state India policy coding
 
 Every stage still lands with an updated qa_report.md and manifest entries.
 
+## Phase 3 — Communication & dissemination (STORM-tested 2026-07-12)
+
+**3.0 Immediate track (independent of Phases 1–2 — the hearing window is
+open NOW).** Ship a minimum-viable one-pager from Phase 0 data (county
+facility count, basin status with screening language, dual-risk flag, one
+fiscal-context line) for 1–2 counties with named active processes (candidates:
+Frederick County MD staff report due Sept 2026; Fort Wayne IN task force
+Sept 8), submitted as written public comment AND handed to the local resident
+group. Target 6–8 weeks. The moratorium wave (Prince George's, Greenwood,
+DeKalb, Hill Co, NC) peaks now; artifacts deferred to Q1 2027 miss it.
+
+**3.1 Metric-design armor (labels and FAQs are necessary, not sufficient —
+the bottle-of-water statistic's caveats did not survive press extraction).**
+Hard rules: no per-query / per-prompt / household-equivalent numbers anywhere,
+ever; headline numbers only at facility/county/water-system scale; ranges
+printed on the chart face (crop-proof); three pre-written quotable statistics
+with exact phrasing and a "how to cite this number" line; a two-front FAQ
+("if you think this is alarmist" / "if you think water risk is debunked",
+citing Ren's own correction); a one-page reconciliation of our 34.7% vs
+Business Insider's widely-cited 40% (different universes: 1,240 permitted vs
+1,474 OSM-derived facilities) — the single most predictable challenge.
+
+**3.2 Launch kits + adoption plumbing.** Every headline release (US peak-day;
+India dataset v0.1; EC audit) ships as a kit: one-page press note led by ONE
+quotable stat with uncertainty inside the sentence; GEM-style dated-release
+citation string ("India DC Facility Dataset, v0.1, [month] 2026 release");
+3–5 CC-BY chart PNGs sized for republication; OWID-style per-chart embed
+codes + archived/versioned chart URLs + data downloads with attribution text
+inside the files; the FracTracker/GPPD disclaimer stack on every artifact
+("modeled estimates, not measured values; may differ from operator-reported
+figures; corrections with evidence welcome").
+
+**3.3 Intermediary strategy (nobody's dashboard walks into a hearing by
+itself).** One named carrier org per target geography (PEC-style org or
+resident coalition per US county; SEIAA-adjacent researchers/DFL for India);
+one-pagers designed as remix material (editable text, copy-this-table
+blocks, explicit CC-BY remix invitation); curator-channel asks (PEC library,
+state equivalents) sent early, week-1-style. Adoption is counted via
+derivative artifacts (county staff memos, association briefs, law-firm
+alerts, UPSC-aggregator pages).
+
+**3.4 India comms.** English-first stands for SEIAA/industrial-officer/
+think-tank audiences (the EC process works in English). Add only: two
+targeted local-language one-page summaries (Telugu for Vizag, Marathi for
+Mumbai) late in Phase 3, one Hindi key-stats page formatted for the
+UPSC-aggregator ecosystem, and a Mongabay-India-first press pitch (it chains
+into Scroll and the Hindi ecosystem). No blanket translation.
+
+**3.5 Press protocol — a gated milestone, not a parallel deliverable.**
+Prerequisites: disclaimers live, corrections/errata page live, right-of-reply
+completed (solicit named companies' comment on headline claims and print
+responses), and an explicit go/no-go at the October checkpoint. Mechanics:
+single-outlet exclusive (~1-week lead) to one data-savvy beat reporter; the
+ONE India press moment is the dataset release (preprint-stage coverage
+cannibalizes journal-stage; data papers rarely earn standalone press).
+Register with SciLine now. Journalist contact is human-only.
+
+**3.6 Publication track (mechanics corrected).** Zenodo v0.1 DOI + preprint
+FIRST (unchanged). Preprint default: SSRN or SocArXiv (arXiv now requires a
+personal endorsement for first-time submitters — if wanted, add an
+endorsement ask to the week-1 batch; OSF Preprints is suspended). Scientific
+Data submission only after dataset v1.0: $2,690 APC (waiver request AT
+submission), ~11-day first-decision signal, 162-day median to acceptance —
+a spring-2027 credential, NOT an October artifact. Data in Brief only as a
+conditional fallback (secondary-data exception must be argued). **Binding
+AI-policy items:** Methods-section disclosure of LLM/agent use (Springer
+Nature policy), no AI-generated imagery, and a citation-verification gate
+(every DOI/URL resolved) on all agent-drafted prose — release-blocking.
+
+## Phase 4 — Validation, engagement, stewardship (STORM-tested 2026-07-12)
+
+**4.1 External review** as locked (named reviewers, recruited week 1) — now
+explicitly including review of agent-written analytical code.
+
+**4.2 Partnerships, re-scoped to how the institutions actually work.**
+WRI India ladder: (i) open-data upgrade/swap for their closed-data viz
+(contact: the named expert on their May 2026 piece), (ii) co-authored
+technical note or blog, (iii) formal co-publication only if WRI initiates
+(their 4-internal + 4-external reviewer process is a multi-month lift). CEEW:
+data-provider/cited-source + reviewer role (their collaboration mode is
+org-to-org). Licensing firewall: the CC-BY dataset releases independently and
+FIRST; a co-branded report may be closed-licensed without contaminating it.
+
+**4.3 Funding.** Green Screen Catalyst Fund's 2026 cycle is CLOSED
+(nominations ended Mar 15; grants started July). Convert to: monitor for
+~Feb 2027 nominations (individuals eligible), keep a 1-page concept note
+ready, and run an alternative-funder scan — the plan currently has zero live
+2026 funding paths.
+
+**4.4 Stewardship (SLA framing replaced by field norms).** No published
+response-time SLA (no comparable org has one; an unkeepable promise creates
+risk). Instead: evidence-required intake ("dispute this record" link per
+facility, GEM-style — page URL + open-source reference required), public
+CHANGELOG.md + errata page, DOI-versioned releases (the Climate TRACE
+incident shows a public changelog is the decisive rebuttal asset). Internal
+best-effort targets only (acknowledge ~14d, adjudicate ~30d). Write the
+freeze/sunset playbook NOW as a repo artifact: pre-drafted freeze banner,
+"data as of [date]" on every table/chart, per-release Zenodo archive,
+COVID-Tracking-Project-style sunset note template. Evidence: early explicit
+freezing is respected; silent staleness is what damages. Maintenance budget:
+~0–2 issues/month absent press + one 1-hour weekly triage block; the real
+event-driven load is press/records/legal correspondence, covered by a
+pre-written response kit.
+
+**4.5 Legal & incident posture.** Disclosed methodology is the legal shield
+for modeled estimates (ONY v. Cornerstone). Documented pushback pattern is
+reverse-records/trade-secret suits and rhetorical methodology disputes — and
+in India, cease-and-desist + parallel civil/criminal defamation (BNS 356)
+with ex parte injunctions and court-ordered platform blocking that has
+already reached GitHub and Vercel (Delhi HC, June 2026 — our exact stack).
+India rules: facility records described strictly in government-source
+language, no accusatory characterizations anywhere (including commit
+messages), EC audit framed as transparency measurement, every India release
+mirrored to Zenodo. Escalations (human-only, always): any legal-flavored
+letter, correction demand from a company or counsel, records denial citing
+trade secrets, press inquiry, or anything from an Indian court/lawyer.
+Pre-publication risk read from a university media-law clinic (free;
+FracTracker used Harvard's Cyberlaw Clinic). Harris affiliation is never
+presented as institutional backing (it confers no liability protection).
+
+## Delegated execution model (Opus/Sonnet build · Fable advises)
+
+The build is executed by Claude Opus 4.8 and Sonnet 5 agents under root
+**CLAUDE.md** (Claude Code does not read AGENTS.md natively). Governing
+findings: prose rules are advisory and degrade in long sessions — hard rules
+are enforced by CI + hooks in agent-unwritable paths; agents saturate visible
+tests while failing held-out ones (gap larger for smaller models), so
+verification is held-out golden tests + fresh-context adversarial review;
+long analytical sessions collapse (~47pp late-turn degradation), so every
+task is single-session with one materialized artifact and a runnable
+pass/fail definition-of-done written before execution.
+
+- **Enforcement before delegation:** CI (1.0.2) is the first gating
+  deliverable — headline-number regression tests marked never-edit,
+  test-integrity check (fails PRs that delete/weaken tests), license/manifest
+  consistency (any file under data/ without a manifest license row fails),
+  citation-verification, and a per-query-equivalence lint on comms artifacts.
+- **Routing:** Sonnet 5 solo = scaffolding, re-pulls, archival, dashboard
+  plumbing, templates, WCAG checks (intro pricing ends Aug 31, 2026 — the
+  cheap window). Opus 4.8 + PR review = joins, refactors, stage-mapping code.
+  Human/Fable-gated, never delegated = every prior/parameter/scenario choice,
+  calibration methodology, anything reaching a headline number or public
+  sentence, licensing decisions, all external communications and
+  publication actions.
+- **Fable usage is approval-gated** and reserved for phase-boundary plan
+  revisions, parameter sign-off sessions, red-teams, and STORM syntheses.
+- **Review contract:** ~6–8 true review hrs/wk caps throughput at ~8–12
+  small PRs/wk; transcript-level review (not diff-only) for anything touching
+  tests, statistics, the manifest, or headline numbers; agent self-report of
+  completion is never accepted — definition-of-done is an externally runnable
+  command.
+- **Realistic few-weeks scope:** 1.0.2 + 1.0.3 + 1.0.5 complete; 1.1–1.4 as
+  config-driven skeletons with TODO-gated parameters awaiting sign-off;
+  Phase 3.0 one-pager; launch-kit templates. Delegation does NOT compress the
+  6–8 month timeline (METR: felt speedup is unreliable); track merged
+  definitions-of-done per week and re-plan at week 3.
+
 ## Success criteria (de facto, per PDIA)
 
 1. An energy-systems and a water-resources reviewer each sign off (documented
    review round) without a "this conflates X with Y" finding.
 2. The India dataset earns a DOI, a data-paper submission, and at least one
    external citation or reuse (WRI India/CEEW engagement counts).
-3. A hearing-usable artifact exists per top-20 US county (accessible PDF)
-   and at least one is used by a real stakeholder.
+3. By Nov 15, 2026: one Phase-0-derived one-pager submitted into at least
+   one county public record (written comment or staff-report citation), with
+   the docket link logged — carried by an identified intermediary; derivative
+   artifacts (staff memos, association briefs) count as adoption. Fall-2026
+   metrics are citation/reuse-shaped, not policy outcomes (the JLARC clock:
+   even the gold-standard study took two sessions to yield disclosure bills).
 4. Every headline number carries a range, a method label, and survives the
    pre-written red-team scripts (ITIF/Potter/Masley class attacks).
