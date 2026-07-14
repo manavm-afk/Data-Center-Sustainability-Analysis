@@ -43,22 +43,9 @@ Top reassignments (nearest-plant -> PIP):
 | SRMV -> SRTV | 1 |
 | SRTV -> SRMV | 1 |
 
-Old (nearest-plant) vs new (PIP) subregion disagreement: 17/1474 facilities (1.2%).
-
-Top disagreeing pairs (old -> new):
-
-| key | facilities |
-|---|---|
-| RFCE -> SRVC | 7 |
-| ERCT -> SRMV | 3 |
-| NEWE -> NYUP | 1 |
-| NWPP -> AZNM | 1 |
-| RFCE -> RFCW | 1 |
-| RFCW -> SRTV | 1 |
-| RMPA -> NWPP | 1 |
-| SRMV -> SRTV | 1 |
-
 ## FracTracker capacity match
+
+Facility-level FracTracker columns ship ONLY in `fractracker_match.csv` (non-commercial; mandatory citation "Data provided by FracTracker Alliance (2026)"), keyed by facility `id` — they are excluded from the ODbL-licensed master outputs.
 
 - Matched facilities (<=500 m, one-to-one): 327
 - Median match distance: 34 m

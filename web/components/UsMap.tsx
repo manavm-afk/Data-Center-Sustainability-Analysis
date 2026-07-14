@@ -190,7 +190,6 @@ export default function UsMap({
               {hover.f.co2 !== null ? `${Math.round(hover.f.co2)} lb/MWh (${hover.f.subregion})` : "no grid data"}
             </p>
             <p>{waterLabels[hover.f.bws]}</p>
-            {hover.f.mw !== null && <p className="tabular">{hover.f.mw} MW</p>}
             {hover.f.dualRisk && (
               <p className="font-medium" style={{ color: "var(--div-warm)" }}>
                 ⚠ dual risk

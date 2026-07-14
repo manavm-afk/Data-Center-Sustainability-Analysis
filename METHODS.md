@@ -11,13 +11,21 @@ before/after, spot checks) is written to
 
 | Dataset | Version pinned | Role | License |
 |---|---|---|---|
-| IM3 Open Source Data Center Atlas (PNNL/DOE) | v2026.02.09 (DOI 10.57931/3017294) | Facility locations, sqft | ODbL 1.0 |
+| IM3 Open Source Data Center Atlas (PNNL/DOE) | v2026.02.09 (DOI 10.57931/3017294) | Facility locations, sqft | ODbL 1.0 (share-alike) |
 | EPA eGRID 2023 rev2 (June 2025) | eGRID2023 rev2 | Subregion/state CO₂ rates, fuel mix, plant coordinates | US public domain |
 | EPA eGRID2023 subregion shapefiles (Jan 2025) | eGRID2023 | Subregion boundaries for point-in-polygon | US public domain |
 | WRI Aqueduct 4.0 (y2023m07d05) | 4.0 | Baseline monthly + future annual water stress by sub-basin | CC BY 4.0 |
 | HydroSHEDS HydroBASINS level-6, standard (na + ar) | **v1c — compatibility-pinned** | Basin polygons whose `PFAF_ID` joins Aqueduct's `pfaf_id` | HydroSHEDS license (attribution) |
 | FracTracker US Data Centers Tracker | dated snapshot (see manifest) | MW capacity, development status | Non-commercial, credit FracTracker Alliance |
 | US Census cartographic boundaries (1:20m) | cb_2025 | Map backdrops in static charts | US public domain |
+
+Per-dataset `license`, `attribution`, and `redistribution` classification
+(redistributable / redistributable-noncommercial / fetch-by-script /
+on-request) live in [data/manifest.json](data/manifest.json). Repo-wide
+layout: code is MIT ([LICENSE](LICENSE)); the IM3-derived facility datasets
+are ODbL 1.0 ([LICENSE-DATA](LICENSE-DATA)); FracTracker-derived facility
+fields ship only in the non-commercial sidecar
+`data/derived-data/fractracker_match.csv` (see below).
 
 Version freshness is checked with `python code/download_data.py --check-updates`
 (per-dataset API/HEAD/scrape checks configured in the manifest). Refreshes are
@@ -120,6 +128,19 @@ rejects a match (colo operator vs tenant naming differs legitimately).
 **No imputation**: facilities without a match keep `mw_capacity = NaN`, and
 coverage is reported honestly in `qa_report.md` and in every summary's
 `mw_coverage_pct`.
+
+**Licensing split.** FracTracker's terms are non-commercial with mandatory
+credit; ODbL (which covers the master outputs) is share-alike and cannot
+absorb non-commercial content. The five FracTracker-derived facility columns
+(`mw_capacity`, `mw_source`, `match_dist_m`, `ft_status`,
+`qa_operator_mismatch`) are therefore written **only** to
+`data/derived-data/fractracker_match.csv` (matched rows, keyed by facility
+`id`; citation: *"Data provided by FracTracker Alliance (2026)"*) and are
+excluded from `datacenters_master.csv` and `web-data/facilities.geojson` —
+the web export fails validation if they leak. Aggregate MW statistics in the
+summaries (MW-weighted rates, `mw_coverage_pct`, per-subregion MW totals) are
+produced-work statistics computed from the sidecar and published with the
+same citation.
 
 ## Aggregation and weighting
 

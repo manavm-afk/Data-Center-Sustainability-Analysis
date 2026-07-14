@@ -1,5 +1,6 @@
 {
   "_comment": "Dataset version manifest. Every number in the writeup must be reproducible from the versions pinned here. Refresh policy: pinned snapshots + explicit `python code/download_data.py --update <key>`; never silent auto-refresh. Run `python code/download_data.py --check-updates` to poll for newer versions.",
+  "_license_fields": "Each dataset carries: `license` (upstream license), `attribution` (the credit line any reuse must carry), and `redistribution` — one of: `redistributable` (snapshot committed in-repo, upstream license permits redistribution), `redistributable-noncommercial` (committed, but non-commercial terms apply — kept OUT of the ODbL-licensed outputs; see LICENSE-DATA), `fetch-by-script` (not committed; download_data.py or the pipeline fetches it), `on-request` (obtain from the upstream provider directly). Repo-wide layout: code = MIT (LICENSE), IM3-derived facility datasets = ODbL 1.0 (LICENSE-DATA), FracTracker-derived files = non-commercial with mandatory credit.",
   "datasets": {
     "im3_atlas": {
       "name": "IM3 Open Source Data Center Atlas (PNNL/DOE)",
@@ -9,6 +10,9 @@
       "stable_latest_alias": "https://data.msdlive.org/records/65g71-a4731/latest",
       "doi": "10.57931/3017294",
       "license": "ODbL 1.0 (OpenStreetMap-derived)",
+      "attribution": "IM3/PNNL Open Source Data Center Atlas, DOI 10.57931/3017294 (ODbL 1.0; OpenStreetMap-derived — (c) OpenStreetMap contributors)",
+      "redistribution": "redistributable",
+      "redistribution_notes": "ODbL is share-alike: every derivative facility dataset in data/derived-data/ and web-data/ is published under ODbL 1.0 (LICENSE-DATA), not MIT.",
       "citation": "IM3/PNNL, Open Source Data Center Atlas, MSD-LIVE Data Repository, v2026.02.09 (2026), doi:10.57931/3017294",
       "notes": "MSD-Live gates file bytes behind an authenticated S3 flow; the committed CSV in data/raw-data/ is the pinned snapshot. Version detection still works via the public InvenioRDM API.",
       "version_check": {
@@ -24,6 +28,8 @@
       "access_date": "2026-03-01",
       "source_url": "https://www.epa.gov/system/files/documents/2025-06/egrid2023_data_rev2.xlsx",
       "license": "US public domain",
+      "attribution": "US EPA, eGRID2023 rev2",
+      "redistribution": "redistributable",
       "citation": "US EPA, Emissions & Generation Resource Integrated Database (eGRID) 2023 rev2, released June 12, 2025",
       "notes": "eGRID2024 not released as of 2026-07-10. Sheet names carry the year suffix (PLNT23/SRL23/ST23); expect PLNT24/... when 2024 lands.",
       "version_check": {
@@ -40,6 +46,8 @@
       "access_date": "2026-07-10",
       "source_url": "https://www.epa.gov/egrid/egrid-mapping-files",
       "license": "US public domain",
+      "attribution": "US EPA, eGRID2023 Subregions GIS shapefiles",
+      "redistribution": "redistributable",
       "citation": "US EPA, eGRID2023 Subregions GIS shapefiles (January 2025)",
       "version_check": {
         "method": "scrape",
@@ -54,6 +62,8 @@
       "access_date": "2026-03-01",
       "source_url": "https://files.wri.org/aqueduct/aqueduct-4-0-water-risk-data.zip",
       "license": "CC BY 4.0",
+      "attribution": "WRI Aqueduct 4.0 (Kuzma et al. 2023), CC BY 4.0",
+      "redistribution": "redistributable",
       "citation": "Kuzma et al. (2023), Aqueduct 4.0: Updated Decision-Relevant Global Water Risk Indicators, WRI",
       "notes": "Committed CSVs are the pinned snapshot (the old raw.githubusercontent URLs are dead). Canonical zip is ~262 MB and contains the same y2023m07d05 files. WRI re-runs the model every ~3-4 years; a 5.0 is plausible 2026-27.",
       "version_check": {
@@ -71,6 +81,9 @@
       "access_date": "2026-07-10",
       "source_url": "https://www.hydrosheds.org/products/hydrobasins",
       "license": "HydroSHEDS license (free incl. commercial use, attribution required)",
+      "attribution": "HydroSHEDS HydroBASINS v1c (Lehner & Grill 2013)",
+      "redistribution": "redistributable",
+      "redistribution_notes": "HydroSHEDS license permits redistribution with attribution; committed zips in data/raw-data/ are the pinned snapshot.",
       "citation": "Lehner, B., Grill, G. (2013). Global river hydrography and network routing: baseline data and new approaches to study the world's large river systems. Hydrological Processes, 27(15), 2171-2186",
       "notes": "COMPATIBILITY PIN: Aqueduct 4.0's pfaf_id is built on HydroBASINS v1. A future HydroBASINS v2 (re-derived on the TanDEM-X DEM) would re-compute Pfafstetter codes and BREAK the join. Alert-only; never auto-update.",
       "version_check": {
@@ -86,7 +99,10 @@
       "version_used": "snapshot 2026-07-10",
       "access_date": "2026-07-10",
       "source_url": "https://www.fractracker.org/data-centers/",
-      "license": "Free for non-commercial use with credit to FracTracker Alliance",
+      "license": "Free for non-commercial use with credit to FracTracker Alliance (fractracker.org/terms-of-service)",
+      "attribution": "Data provided by FracTracker Alliance (2026)",
+      "redistribution": "redistributable-noncommercial",
+      "redistribution_notes": "Facility-level FracTracker-derived columns (mw_capacity, mw_source, match_dist_m, ft_status, qa_operator_mismatch) are distributed ONLY in data/derived-data/fractracker_match.csv — never inside the ODbL outputs, whose share-alike terms cannot absorb non-commercial content. Written permission requested (ROADMAP 1.0.1) to (a) include matched fields in the open derived dataset and (b) archive dated snapshots on Zenodo; if denied, these fields become regenerate-by-script only and the committed snapshot/sidecar are withdrawn.",
       "citation": "FracTracker Alliance, U.S. Data Centers Tracker (accessed 2026-07-10), fractracker.org/data-centers",
       "notes": "Rolling dataset (live Google Sheet; ArcGIS feature service data_centers_v4_agol_all). The dated snapshot committed in data/raw-data/ is the reproducibility anchor. Known data typo: one row dated 3036 — dates clamped in QA.",
       "version_check": {
@@ -103,6 +119,9 @@
       "access_date": "2026-07-10",
       "source_url": "https://www2.census.gov/geo/tiger/GENZ2025/shp/",
       "license": "US public domain",
+      "attribution": "US Census Bureau, Cartographic Boundary Files",
+      "redistribution": "fetch-by-script",
+      "redistribution_notes": "Fetched at runtime by code/generate_charts.py and cached in data/shapefiles/ (gitignored); not committed.",
       "citation": "US Census Bureau, 2025 Cartographic Boundary Files",
       "notes": "Fetched at runtime by code/generate_charts.py and cached in data/shapefiles/ (gitignored). Annual cadence; expect GENZ2026 ~April 2027.",
       "version_check": {

@@ -114,8 +114,24 @@ python code/export_web_data.py     # 4. refresh the web-data/ JSON layer
 quarto render Final_Project_Summary.qmd   # 5. re-render the writeup
 ```
 
-## License
+## Licensing
 
-MIT (code). Data licenses per source — see [METHODS.md](METHODS.md); FracTracker data is
-non-commercial with credit; IM3 atlas is ODbL; HydroBASINS requires attribution
-(Lehner & Grill 2013).
+Code and data carry **different licenses** (the IM3 atlas is OpenStreetMap-derived
+and ODbL is share-alike, so MIT cannot cover the datasets):
+
+| What | License | Where |
+|---|---|---|
+| Source code (`code/`, `web/`, scripts, config) | MIT | [LICENSE](LICENSE) |
+| IM3-derived facility datasets (`data/derived-data/` facility tables + summaries, `web-data/` layers) | **ODbL 1.0** (share-alike) | [LICENSE-DATA](LICENSE-DATA) |
+| FracTracker-derived facility fields (`mw_capacity`, `mw_source`, `match_dist_m`, `ft_status`, `qa_operator_mismatch`) | Non-commercial; mandatory citation *"Data provided by FracTracker Alliance (2026)"* | [data/derived-data/fractracker_match.csv](data/derived-data/fractracker_match.csv) — a separate sidecar keyed by facility `id`, never merged into the ODbL outputs |
+| Raw inputs (`data/raw-data/`) | Upstream licenses | per-dataset `license` / `attribution` / `redistribution` fields in [data/manifest.json](data/manifest.json) |
+
+**Why the split:** ODbL's share-alike terms cannot absorb non-commercial
+content, so FracTracker-derived facility columns are distributed only in the
+clearly-flagged sidecar. Aggregate MW statistics in the summaries (MW-weighted
+rates, coverage percentages) are produced-work statistics published with the
+FracTracker citation. Written permission has been requested from FracTracker
+to fold the matched fields into the open dataset and to archive dated
+snapshots on Zenodo; if declined, the sidecar and the committed snapshot are
+withdrawn and those fields become regenerate-by-script only
+(`code/preprocessing.py` rebuilds them from a fresh FracTracker pull).

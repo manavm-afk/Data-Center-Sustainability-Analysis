@@ -52,6 +52,12 @@ export default function Home() {
             .join(" · ")}
         </p>
         <p className="mt-1">{meta.attribution.join(" · ")}</p>
+        <p className="mt-1">
+          Licensing: code {meta.licensing.code} · facility datasets{" "}
+          {meta.licensing.facility_datasets} · FracTracker fields:{" "}
+          {meta.licensing.fractracker_fields} · per-dataset terms:{" "}
+          {meta.licensing.details}
+        </p>
       </footer>
     </main>
   );

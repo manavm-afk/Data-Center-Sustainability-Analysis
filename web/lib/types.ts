@@ -10,6 +10,12 @@ export type WaterCategory =
 export interface Meta {
   generated: string;
   pipeline: string;
+  licensing: {
+    code: string;
+    facility_datasets: string;
+    fractracker_fields: string;
+    details: string;
+  };
   datasets: Record<
     string,
     {
@@ -18,6 +24,8 @@ export interface Meta {
       access_date: string;
       source_url: string;
       license: string | null;
+      attribution: string | null;
+      redistribution: string | null;
       citation: string | null;
     }
   >;
@@ -55,7 +63,6 @@ export interface FacilityPoint {
   subregion: string | null;
   bws: WaterCategory;
   bwsScore: number | null;
-  mw: number | null;
   sqft: number | null;
   dualRisk: boolean;
 }
